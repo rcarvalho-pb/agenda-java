@@ -1,18 +1,25 @@
-## Getting Started
+# Agenda em Java
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Objetivos do projeto
 
-## Folder Structure
+...
+## Como contribuir
 
-The workspace contains two folders by default, where:
+1. Realize um **Fork** do projeto
+2. Crie uma **Branch** para modificar (`git checkout -b feature/featureBraba`)
+3. Realize o(s) **Commit**'s (`git commit -m "Adicionando melhoria ..."`)
+4. Realize o **Push** da sua **Branch** (`git push origin feature/featureBraba`)
+5. Abra um **Pull Request** e faça o link com a(s) **issue**(s) correspondentes.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Equipe
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+- Hugo Rafael (@hgrafa)[]
+- Nati Stoll 
+- Ramon Carvalho
+- Ailton Ferreira
+- Maria Helena
+- Neto
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+ ----
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+made with 💛 to Ada
