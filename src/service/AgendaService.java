@@ -5,6 +5,7 @@ import model.Contato;
 import model.Endereco;
 import model.Telefone;
 import view.AgendaView;
+import view.Mensagens;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ import exception.ContatoJaRegistradoException;
 public class AgendaService {
 
     AgendaView view = new AgendaView();
+    Mensagens mensagens = new Mensagens();
     Agenda agenda = new Agenda();
 
     public void menu() {
@@ -55,7 +57,7 @@ public class AgendaService {
         if (contatoExiste) {
             // TODO trocar retorno por lancamento de exception
             // throw new ContatoJaRegistradoException(novoContato.getNome());
-            System.out.println("Contato já existe.");
+            mensagens.contatoExiste();
             return;
         } 
         
