@@ -136,10 +136,13 @@ public class AgendaService {
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         Telefone telefone = view.escolherTelefoneRemover(contatoSelecionado);
-        agenda.getContatos().stream()
+        System.out.println(telefone);
+        System.out.println(contato);
+        long quantidadeApagados = agenda.getContatos().stream()
                 .filter(cont -> cont.equals(contatoSelecionado))
                 .map(cont -> cont.getTelefones().remove(telefone))
-                .close(); // NÃO TÁ FUNCIONANDO
+                .count();
+        System.out.println("Foram apagados " + quantidadeApagados + " telefones.");
 
 
 
