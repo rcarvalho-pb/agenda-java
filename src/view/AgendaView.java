@@ -41,7 +41,7 @@ public class AgendaView {
 
     }
 
-    public String buscarContato(String frase){
+    public String buscarContato(String frase){ //3
         System.out.println(frase);
         System.out.println("Qual o contato? ");
         System.out.print("> ");
@@ -61,7 +61,7 @@ public class AgendaView {
         return new Contato(nome, email);
     }
 
-    public Contato escolherContato(List<Contato> contatos) {
+    public Contato escolherContato(List<Contato> contatos) { //Para buscar um contato para editar
 
         if(!(contatos.size() == 1)){
             System.out.println("Qual contato? ");
@@ -92,7 +92,7 @@ public class AgendaView {
                     continuarLoop = false;
                     break;
                 default:
-                    System.err.println("Comando Inválido. ");
+                    System.err.println("Comando Inválido.");
                     break;
             }
         }while(continuarLoop);
@@ -122,7 +122,7 @@ public class AgendaView {
         return new Endereco(logradouro, cep, numero, cidade, estado);
     }
 
-    public Telefone escolherTelefoneRemover(Contato contato) {
+    public Telefone escolherTelefoneRemover(Contato contato) { //8
         
         if(!(contato.getTelefones().size() == 1)){
             System.out.println("Qual telefone a remover? ");
