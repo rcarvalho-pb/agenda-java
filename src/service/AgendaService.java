@@ -1,18 +1,19 @@
 package service;
 
-import model.Agenda;
-import model.Contato;
-import model.Endereco;
-import model.Telefone;
+import model.*;
 import view.AgendaView;
+import view.Mensagens;
 
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import common.Constantes;
 import exception.ContatoJaRegistradoException;
 
 public class AgendaService {
+
+    Mensagens mensagens = new Mensagens();
 
     AgendaView view = new AgendaView();
     Agenda agenda = new Agenda();
@@ -42,6 +43,7 @@ public class AgendaService {
                 case Constantes.EXIBIR_LISTA_ENDERECOS_COM_PAGINACAO -> exibirListaEnderecosComPaginacao(); // 17
                 case Constantes.EXPORTAR_TODOS_CONTACTOS_PARA_TXT -> exportarTodosContatosParaTXT(); // 18
                 case Constantes.IMPORTAR_TODOS_CONTACTOS_PARA_TXT -> importarTodosContatosParaTXT(); // 19
+                case "21" -> pegarDdd(); // 19
                 case Constantes.SAIR_PROGRAMA -> continueMenu = sairPrograma();
 
             }
@@ -49,13 +51,16 @@ public class AgendaService {
     }
 
     public void adicionarContato() { // 1
+//        Contato novoContato = new Contato;
         Contato novoContato = view.AdicionarContato();
         boolean contatoExiste = agenda.getContatos().stream().anyMatch(contato -> contato.equals(novoContato));
 
         if (contatoExiste) {
             // TODO trocar retorno por lancamento de exception
             // throw new ContatoJaRegistradoException(novoContato.getNome());
-            System.out.println("Contato já existe.");
+            mensagens.contatoExiste();
+
+
             return;
         } 
         
@@ -149,6 +154,26 @@ public class AgendaService {
         });
 
     }
+
+    public void pegarDdd(){
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite UF: ");
+        String uf = sc.nextLine();
+
+        Estado estadoOpcao = Estado.pegarDdd(uf);
+
+        switch(estadoOpcao){
+            case RO -> System.out.println(Estado.RO.getDdd());
+            case AC -> System.out.println(Estado.AC.getDdd());
+            case AM -> System.out.println(Estado.AM.getDdd());
+            default -> System.out.println("Digite um uf válido");
+        }
+
+    }
+
+
+
 
     public void mostrarTodasInformacoesParaContato() { // 10
         String contato = view.buscarContato("------- BUSCAR CONTATO -------");
