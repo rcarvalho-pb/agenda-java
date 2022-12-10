@@ -6,7 +6,7 @@ public class Contato {
     
     private String nome;
     private List<Telefone> telefones;
-    private Endereco endereco;
+    private List<Endereco> enderecos;
     private String email;
 
     public Contato(String nome, String email) {
@@ -14,10 +14,10 @@ public class Contato {
         this.email = email;
     }
 
-    public Contato(String nome, List<Telefone> telefones, Endereco endereco, String email) {
+    public Contato(String nome, List<Telefone> telefones, List<Endereco> enderecos, String email) {
         this.nome = nome;
         this.telefones = telefones;
-        this.endereco = endereco;
+        this.enderecos = enderecos;
         this.email = email;
     }
 
@@ -45,14 +45,14 @@ public class Contato {
         this.email = email;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public List<Endereco> getEnderecos() {
+        return enderecos;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -123,10 +123,10 @@ public class AgendaService {
         String contato = view.buscarContato("------- ADD ENDEREÇO -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        Endereco endereco = view.pegarEndereco();
+        List<Endereco> enderecos = view.pegarEndereco();
         agenda.getContatos().forEach(cont -> {
             if (cont.equals(contatoSelecionado)) {
-                cont.setEndereco(endereco);
+                cont.setEnderecos(enderecos);
             }
         });
     }
@@ -139,7 +139,10 @@ public class AgendaService {
         agenda.getContatos().stream()
                 .filter(cont -> cont.equals(contatoSelecionado))
                 .map(cont -> cont.getTelefones().remove(telefone))
-                .close();
+                .close(); // NÃO TÁ FUNCIONANDO
+
+
+
 
     }
 
@@ -147,12 +150,11 @@ public class AgendaService {
         String contato = view.buscarContato("------- REMOVER ENDEREÇO -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        agenda.getContatos().forEach(cont -> {
-            if (cont.equals(contatoSelecionado)) {
-                cont.setEndereco(null);
-            }
-        });
-
+        Endereco endereco = view.escolherEnderecoRemover(contatoSelecionado);
+        agenda.getContatos().stream()
+                .filter(cont -> cont.equals(contatoSelecionado))
+                .map(cont -> cont.getEnderecos().remove(endereco))
+                .close();
     }
 
     public void pegarDdd(){
@@ -183,8 +185,13 @@ public class AgendaService {
     }
 
     public void listarTodosTelefonesParaContato() {// 11
-
+        String contato = view.buscarContato("------- BUSCAR CONTATO -------");
+        List<Contato> contatosEncontrados = buscarContato(contato);
+        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
+        view.mostrarTodasTelefonesParaContato(contatoSelecionado);
     }
+
+
 
     public void listarTodosEnderecosParaContato() { // 12
 
