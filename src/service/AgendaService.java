@@ -24,16 +24,33 @@ public class AgendaService {
             String option = (view.opcaoMenu());
 
             switch (option) {
-                case Constantes.ADICIONAR_CONTATO -> adicionarContato(); // Tudo OK - falta testar
-                case Constantes.LISTAR_CONTATO -> listarContatos(); // Tudo OK - falta testar
+                //1 ---- pede somente nome -- tem que adicionar sobrenome
+                case Constantes.ADICIONAR_CONTATO -> adicionarContato(); // 1
+                //2 falta cabeçalho para facilitar visualizacao - padronizar todos os nomes com a primeira maiuscula?
+                case Constantes.LISTAR_CONTATO -> listarContatos(); // 2
+                //3 ---- nao encontra com partes do nome -- o maior preoblema é se o nome é composto, como Ana Luiza, se eu digito só ana, não retona.
+                //3 ---- Caso não encontre, dar opcao de digitar nomamente, acesar menu ou finalizar?
+                //3 ---- Só retorna o nome -- qual a finalidade? Acho que pode ser interessante retornar todas as infos do contato? Mas aí se confunde com o item 10.
                 case Constantes.BUSCAR_CONTATO -> imprimirBuscarContato(); // 3 // já criado
+                //4 ---- tudo ótimo -- talvez inserir uma confirmação: Esta ação não poderá ser desfeita. Deseja excluir o contato da agenda?
                 case Constantes.REMOVER_CONTATO -> removerContato(); // 4
+                //5 ---- tudo ótimo -- talvez inserir uma confirmação: Esta ação não poderá ser desfeita. Deseja excluir TODOS os contatos da agenda?
                 case Constantes.REMOVER_TODOS_CONTATOS -> removerTodosContatos(); // 5
+                //6 ---- acho que podemos usar sempre números em toda a aplicacao.
+                //6 ---- talvez listar os contatos para o usuário selecionar pelo índice para qual contato quer inserir
+                //6 ---- no final, quando pergunta se quer adicionar mais um telefone, não aceita "S" e "N", só "s" e "n" -- ou tratar, ou pedir números
                 case Constantes.ADICIONAR_TELEFONE_PARA_CONTATO -> adicionarTelefoneParaContato(); // 6
+                //7 ----
                 case Constantes.ADICIONAR_ENDERECO_PARA_CONTATO -> adicionarEnderecoParaContato(); // 7
+                //8 ---- perguntar se tem certeza
                 case Constantes.REMOVER_TELEFONE_PARA_CONTATO -> removerTelefoneParaContato();// 8
+                //9 ----
                 case Constantes.REMOVER_ENDERECO_PARA_CONTATO -> removerEnderecoParaContato();// 9
+                //10 ----
                 case Constantes.MOSTRAR_TODAS_INFORMACOES_CONTATO -> mostrarTodasInformacoesParaContato(); // 10
+                //11 ---- lista corretamente se eu inserir todos os telefones de 1 vez.
+                //11 ---- caso eu adicione os telefones para o contato Ana, liste e depois decida inserir mais telefones
+                //11 ---- os primeiros são ignorados e só permanecem os novos
                 case Constantes.LISTAR_TODOS_TELEFONES_PARA_UM_CONTATO -> listarTodosTelefonesParaContato(); // 11
                 case Constantes.LISTAR_TODOS_ENDERECOS_PARA_UM_CONTATO -> listarTodosEnderecosParaContato(); // 12
                 case Constantes.EXIBIR_TODAS_INFORMACOES_TELEFONE_CONTATO_NA_AGENDA -> exibirTodasInformacoesTelefone(); // 13
@@ -49,6 +66,9 @@ public class AgendaService {
             }
         }
     }
+
+
+    //CONTATOS
 
     public void adicionarContato() { // 1
 //        Contato novoContato = new Contato;
@@ -103,6 +123,9 @@ public class AgendaService {
         agenda.getContatos().clear();
     }
 
+
+
+    //TELEFONES
     public void adicionarTelefoneParaContato() { // 6
         String contato = view.buscarContato("------- ADD TELEFONE -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
@@ -118,6 +141,29 @@ public class AgendaService {
 
     }
 
+
+
+
+    public void removerTelefoneParaContato() { // 8
+        String contato = view.buscarContato("------- REMOVER TELEFONE -------");
+        List<Contato> contatosEncontrados = buscarContato(contato);
+        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
+        Telefone telefone = view.escolherTelefoneRemover(contatoSelecionado);
+//        System.out.println(telefone);
+//        System.out.println(contato);
+        long quantidadeApagados = agenda.getContatos().stream()
+                .filter(cont -> cont.equals(contatoSelecionado))
+                .map(cont -> cont.getTelefones().remove(telefone))
+                .count();
+        System.out.println("Foi/Foram apagado(s) " + quantidadeApagados + " telefone(s).");
+
+
+
+
+    }
+
+
+    //ENDERECOS
     public void adicionarEnderecoParaContato() { // 7
 
         String contato = view.buscarContato("------- ADD ENDEREÇO -------");
@@ -131,33 +177,16 @@ public class AgendaService {
         });
     }
 
-    public void removerTelefoneParaContato() { // 8
-        String contato = view.buscarContato("------- REMOVER TELEFONE -------");
-        List<Contato> contatosEncontrados = buscarContato(contato);
-        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        Telefone telefone = view.escolherTelefoneRemover(contatoSelecionado);
-        System.out.println(telefone);
-        System.out.println(contato);
-        long quantidadeApagados = agenda.getContatos().stream()
-                .filter(cont -> cont.equals(contatoSelecionado))
-                .map(cont -> cont.getTelefones().remove(telefone))
-                .count();
-        System.out.println("Foram apagados " + quantidadeApagados + " telefones.");
-
-
-
-
-    }
-
     public void removerEnderecoParaContato() { // 9
         String contato = view.buscarContato("------- REMOVER ENDEREÇO -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         Endereco endereco = view.escolherEnderecoRemover(contatoSelecionado);
-        agenda.getContatos().stream()
+        long quantidadeApagados =  agenda.getContatos().stream()
                 .filter(cont -> cont.equals(contatoSelecionado))
                 .map(cont -> cont.getEnderecos().remove(endereco))
-                .close();
+                .count();
+        System.out.println("Foi/Foram apagado(s) " + quantidadeApagados + " endereço(s).");
     }
 
     public void pegarDdd(){

@@ -14,7 +14,9 @@ public class AgendaView {
     Scanner scan = new Scanner(System.in);
 
     public String opcaoMenu(){
-        System.out.println("Olá! Digite a opção que você deseja: ");
+        System.out.println("--------------------------------------------------");
+        System.out.println("XXXX  Olá! Digite a opção que você deseja:  XXXX");
+        System.out.println("--------------------------------------------------");
         System.out.println("1 - Adicionar Contato");
         System.out.println("2 - Listar");
         System.out.println("3 - Buscar Contato");
@@ -35,6 +37,7 @@ public class AgendaView {
         System.out.println("18 - Exportar todos os contatos para um arquivo texto ");
         System.out.println("19 - Importar todos os contatos de um arquivo texto ");
         System.out.println("20 - Sair do Programa ");
+        System.out.print("> ");
         
 
 
