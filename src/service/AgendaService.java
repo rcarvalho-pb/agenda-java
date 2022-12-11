@@ -138,6 +138,7 @@ public class AgendaService {
         Telefone telefone = view.escolherTelefoneRemover(contatoSelecionado);
         System.out.println(telefone);
         System.out.println(contato);
+
         long quantidadeApagados = agenda.getContatos().stream()
                 .filter(cont -> cont.equals(contatoSelecionado))
                 .map(cont -> cont.getTelefones().remove(telefone))
