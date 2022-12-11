@@ -103,7 +103,7 @@ public class AgendaService {
         List<Contato> contatosEncontrados = agenda
                 .getContatos()
                 .stream()
-                .filter(c -> c.getNome().equalsIgnoreCase(contatoProcurado))
+                .filter(c -> c.getNome().toLowerCase().contains(contatoProcurado.toLowerCase()))
                 .collect(Collectors.toList());
 
         if (contatosEncontrados.size() == 0) {
