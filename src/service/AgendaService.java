@@ -71,7 +71,7 @@ public class AgendaService {
         List<Contato> contatosEncontrados = agenda
                 .getContatos()
                 .stream()
-                .filter(c -> c.getNome().toLowerCase().contains(contato.toLowerCase()))
+                .filter(c -> c.getNome().toLowerCase().contains(contato.toLowerCase()) || c.getSobrenome().toLowerCase().contains(contato.toLowerCase()))
                 .collect(Collectors.toList());
 
         if (contatosEncontrados.size() == 0) {
@@ -116,7 +116,7 @@ public class AgendaService {
         List<Telefone> telefones = view.pegarNovoTelefone();
         agenda.getContatos().forEach(cont -> {
             if (cont.equals(contatoSelecionado)) {
-                cont.setTelefones(telefones);
+                cont.getTelefones().addAll(telefones);
             }
         });
 

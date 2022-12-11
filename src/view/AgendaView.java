@@ -54,12 +54,16 @@ public class AgendaView {
         System.out.println("Nome do Contato: ");
         System.out.print("> ");
         String nome = scan.nextLine();
+        
+        System.out.println("Sobrenome do Contato: ");
+        System.out.print("> ");
+        String sobrenome = scan.nextLine();
 
         System.out.println("E-mail do Contato");
         System.out.print("> ");
         String email = scan.nextLine();
 
-        return new Contato(nome, email);
+        return new Contato(nome, sobrenome, email);
     }
 
     public Contato escolherContato(List<Contato> contatos) {

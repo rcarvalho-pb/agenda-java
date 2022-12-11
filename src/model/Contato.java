@@ -5,17 +5,20 @@ import java.util.List;
 public class Contato {
     
     private String nome;
+    private String sobrenome;
     private List<Telefone> telefones;
     private List<Endereco> enderecos;
     private String email;
 
-    public Contato(String nome, String email) {
+    public Contato(String nome, String sobrenome, String email) {
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.email = email;
     }
 
-    public Contato(String nome, List<Telefone> telefones, List<Endereco> enderecos, String email) {
+    public Contato(String nome, String sobrenome, List<Telefone> telefones, List<Endereco> enderecos, String email) {
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.telefones = telefones;
         this.enderecos = enderecos;
         this.email = email;
@@ -53,6 +56,13 @@ public class Contato {
         this.enderecos = enderecos;
     }
     
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -88,26 +98,27 @@ public class Contato {
     public String toString(){
         if (telefones != null && enderecos != null) {
             StringBuilder sb = new StringBuilder();
-            sb.append(nome + ", " + email);
+            sb.append(nome + " " + sobrenome + ", " + email);
             sb.append(enderecos);
             sb.append(telefones);
             return sb.toString();
         }
         if (telefones == null && enderecos != null) {
             StringBuilder sb = new StringBuilder();
-            sb.append(nome + ", " + email);
+            sb.append(nome + " " + sobrenome + ", " + email);
             sb.append(enderecos);
             return sb.toString();
         }
         if (telefones != null && enderecos == null) {
             StringBuilder sb = new StringBuilder();
-            sb.append(nome + ", " + email);
+            sb.append(nome + " " + sobrenome + ", " + email);
             sb.append(telefones);
             return sb.toString();
         }
 
-        return nome + ", " + email;
+        return nome + " " + sobrenome + ", " + email;
 
     }
+
   
 }
