@@ -5,12 +5,19 @@ import java.util.List;
 public class Contato {
     
     private String nome;
+    private String sobreNome;
     private List<Telefone> telefones;
     private List<Endereco> enderecos;
     private String email;
 
     public Contato(String nome, String email) {
         this.nome = nome;
+        this.email = email;
+    }
+
+    public Contato(String nome, String sobreNome, String email) {
+        this.nome = nome;
+        this.sobreNome = sobreNome;
         this.email = email;
     }
 
@@ -58,6 +65,7 @@ public class Contato {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+        result = prime * result + ((sobreNome == null) ? 0 : sobreNome.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         return result;
     }

@@ -52,6 +52,15 @@ public class AgendaView {
         return nome;
     }
 
+    public String buscarEndereco(String frase){ //3
+        System.out.println(frase);
+        System.out.println("Qual o endereço? ");
+        System.out.print("> ");
+        String nome = scan.nextLine();
+        return nome;
+    }
+
+
 
     public String opcaoContatoNaoEncontrado(){
         System.err.println("Contato não encontrado. \n");
@@ -65,11 +74,15 @@ public class AgendaView {
         System.out.print("> ");
         String nome = scan.nextLine();
 
+        System.out.println("Sobrenome: ");
+        System.out.print("> ");
+        String sobreNome = scan.nextLine();
+
         System.out.println("E-mail do Contato");
         System.out.print("> ");
         String email = scan.nextLine();
 
-        return new Contato(nome, email);
+        return new Contato(nome, sobreNome, email);
     }
 
     public Contato escolherContato(List<Contato> contatos) { //Para buscar um contato para editar
@@ -107,11 +120,11 @@ public class AgendaView {
             Telefone telefone = new Telefone(numeroTelefone);
             telefones.add(telefone);
 
-            System.out.println("Deseja adicionar outro telefone? ");
+            System.out.println("Deseja adicionar outro telefone? \n [1] sim [2] não");
             switch (scan.nextLine()){
-                case "s", "sim":
+                case "1":
                     continue;
-                case "n", "nao": 
+                case "2":
                     continuarLoop = false;
                     break;
                 default:
@@ -119,7 +132,7 @@ public class AgendaView {
                     break;
             }
         }while(continuarLoop);
-        
+
 
         return telefones;
     }
@@ -184,6 +197,14 @@ public class AgendaView {
         });
     }
 
+    public void mostrarTodosEnderecosParaContato(Contato contato){
+        contato.getEnderecos().forEach(endereco -> {
+            System.out.println(endereco.getLogradouro() + " "
+                    + endereco.getNumero()  + " " + endereco.getCidade() + " "
+                    + endereco.getEstado()  + " " + endereco.getCep());
+        });
+    }
+
     public void mostrarTodasEnderecosParaContato(Contato contato){
         contato.getEnderecos().forEach(endereco -> {
             System.out.println("Cep:" + endereco.getCep() + " Cidade: " + endereco.getCidade());
@@ -195,9 +216,4 @@ public class AgendaView {
         System.out.println("Encerrando o programa. ");
         return false;
     }
-
-
-
-
-
 }
