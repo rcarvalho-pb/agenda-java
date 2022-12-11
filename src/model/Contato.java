@@ -94,7 +94,28 @@ public class Contato {
 
     @Override
     public String toString(){
+        if (telefones != null && enderecos != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(nome + ", " + email);
+            sb.append(enderecos);
+            sb.append(telefones);
+            return sb.toString();
+        }
+        if (telefones == null && enderecos != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(nome + ", " + email);
+            sb.append(enderecos);
+            return sb.toString();
+        }
+        if (telefones != null && enderecos == null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(nome + ", " + email);
+            sb.append(telefones);
+            return sb.toString();
+        }
+
         return nome + ", " + email;
+
     }
   
 }
