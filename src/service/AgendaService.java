@@ -4,6 +4,7 @@ import model.*;
 import view.AgendaView;
 import view.Mensagens;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class AgendaService {
                 case Constantes.ADICIONAR_CONTATO -> adicionarContato(); // 1
                 //2 falta cabeçalho para facilitar visualizacao - padronizar todos os nomes com a primeira maiuscula?
                 case Constantes.LISTAR_CONTATO -> listarContatos(); // 2
-                //3 ---- nao encontra com partes do nome -- o maior preoblema é se o nome é composto, como Ana Luiza, se eu digito só ana, não retona.
+                //3 ---- nao encontra com partes do nome -- o maior problema é se o nome é composto, como Ana Luiza, se eu digito só ana, não retona.
                 //3 ---- Caso não encontre, dar opcao de digitar nomamente, acesar menu ou finalizar?
                 //3 ---- Só retorna o nome -- qual a finalidade? Acho que pode ser interessante retornar todas as infos do contato? Mas aí se confunde com o item 10.
                 case Constantes.BUSCAR_CONTATO -> imprimirBuscarContato(); // 3 // já criado
@@ -73,17 +74,17 @@ public class AgendaService {
     public void adicionarContato() { // 1
 //        Contato novoContato = new Contato;
         Contato novoContato = view.AdicionarContato();
-        boolean contatoExiste = agenda.getContatos().stream().anyMatch(contato -> contato.equals(novoContato));
+        boolean contatoExiste = agenda.getContatos()
+                .stream()
+                .anyMatch(contato -> contato.equals(novoContato));
 
         if (contatoExiste) {
             // TODO trocar retorno por lancamento de exception
             // throw new ContatoJaRegistradoException(novoContato.getNome());
             mensagens.contatoExiste();
 
-
             return;
-        } 
-        
+        }
         agenda.getContatos().add(novoContato);
     }
 
@@ -99,12 +100,41 @@ public class AgendaService {
                 .filter(c -> c.getNome().equalsIgnoreCase(contatoProcurado))
                 .collect(Collectors.toList());
 
-        if (contatosEncontrados.size() == 0) {
-            System.err.println("Contato não encontrado. ");
-        }
 
-        return contatosEncontrados;
+    if (contatosEncontrados.size() == 0) {
+        String opcoesContatoNaoEncontradoAlvo = view.opcaoContatoNaoEncontrado();
+
+        switch (opcoesContatoNaoEncontradoAlvo) {
+            case "1" -> view.buscarContato("------- BUSCAR CONTATO -------");
+            case "2" -> menu();
+            default -> System.out.println("Opcão inválida");
+        }
+//            System.err.println("Contato não encontrado. ");
     }
+        return contatosEncontrados;
+}
+
+//    public List<Contato> buscarContato(String contatoProcurado) { // 3
+//
+//        List<Contato> contatosEncontrados = agenda
+//                .getContatos()
+//                .stream()
+//                .filter(c -> c.getNome().equalsIgnoreCase(contatoProcurado))
+//                .collect(Collectors.toList());
+//
+//
+//        if (contatosEncontrados.size() == 0) {
+//            String opcoesContatoNaoEncontradoAlvo = view.opcaoContatoNaoEncontrado();
+//
+//            switch (opcoesContatoNaoEncontradoAlvo) {
+//                case "1" -> view.buscarContato("------- BUSCAR CONTATO -------");
+//                case "2" -> menu();
+//                default -> System.out.println("Opcão inválida");
+//            }
+////            System.err.println("Contato não encontrado. ");
+//        }
+//        return contatosEncontrados;
+//    }
 
     public void imprimirBuscarContato() {
         String contato = view.buscarContato("------- BUSCAR CONTATO -------");

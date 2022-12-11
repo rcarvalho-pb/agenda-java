@@ -4,6 +4,7 @@ import model.Contato;
 import model.Endereco;
 import model.Telefone;
 import common.Constantes;
+import service.AgendaService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,6 @@ public class AgendaView {
         System.out.println("19 - Importar todos os contatos de um arquivo texto ");
         System.out.println("20 - Sair do Programa ");
         System.out.print("> ");
-        
-
 
         return scan.nextLine();
 
@@ -51,6 +50,14 @@ public class AgendaView {
         System.out.print("> ");
         String nome = scan.nextLine();
         return nome;
+    }
+
+
+    public String opcaoContatoNaoEncontrado(){
+        System.err.println("Contato não encontrado. \n");
+        System.out.println(" ");
+        System.out.println("[1] Nova busca  ou  [2] Voltar ao Menú");
+        return scan.nextLine();
     }
 
     public Contato AdicionarContato(){ //1
