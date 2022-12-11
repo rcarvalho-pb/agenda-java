@@ -26,4 +26,8 @@ public class Constantes{
     public static final String IMPORTAR_TODOS_CONTACTOS_PARA_TXT = "19"; 
     public static final String SAIR_PROGRAMA = "20";
 
+    // Contatos Service
+
+    public static final int INDEX_FATOR = 1;
+
 }

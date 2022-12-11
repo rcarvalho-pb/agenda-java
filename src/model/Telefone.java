@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Telefone {
   
     private String ddd;
@@ -36,35 +38,16 @@ public class Telefone {
         this.numeroTelefone = numeroTelefone;
     }
 
-  @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((ddd == null) ? 0 : ddd.hashCode());
-        result = prime * result + ((numeroTelefone == null) ? 0 : numeroTelefone.hashCode());
-        return result;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Telefone telefone)) return false;
+        return ddd.equals(telefone.ddd) && getNumeroTelefone().equals(telefone.getNumeroTelefone());
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Telefone other = (Telefone) obj;
-        if (ddd == null) {
-            if (other.ddd != null)
-                return false;
-        } else if (!ddd.equals(other.ddd))
-            return false;
-        if (numeroTelefone == null) {
-            if (other.numeroTelefone != null)
-                return false;
-        } else if (!numeroTelefone.equals(other.numeroTelefone))
-            return false;
-        return true;
+    public int hashCode() {
+        return Objects.hash(ddd, getNumeroTelefone());
     }
 
     @Override

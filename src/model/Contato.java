@@ -5,8 +5,9 @@ import java.util.List;
 public class Contato {
     
     private String nome;
+    private String sobreNome;
     private List<Telefone> telefones;
-    private Endereco endereco;
+    private List<Endereco> enderecos;
     private String email;
 
     public Contato(String nome, String email) {
@@ -14,10 +15,16 @@ public class Contato {
         this.email = email;
     }
 
-    public Contato(String nome, List<Telefone> telefones, Endereco endereco, String email) {
+    public Contato(String nome, String sobreNome, String email) {
+        this.nome = nome;
+        this.sobreNome = sobreNome;
+        this.email = email;
+    }
+
+    public Contato(String nome, List<Telefone> telefones, List<Endereco> enderecos, String email) {
         this.nome = nome;
         this.telefones = telefones;
-        this.endereco = endereco;
+        this.enderecos = enderecos;
         this.email = email;
     }
 
@@ -45,19 +52,20 @@ public class Contato {
         this.email = email;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public List<Endereco> getEnderecos() {
+        return enderecos;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+        result = prime * result + ((sobreNome == null) ? 0 : sobreNome.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         return result;
     }
