@@ -4,7 +4,7 @@ import model.*;
 import view.AgendaView;
 import view.Mensagens;
 
-import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -16,6 +16,7 @@ public class AgendaService {
 
     Mensagens mensagens = new Mensagens();
 
+    int contador = 0;
     AgendaView view = new AgendaView();
     Agenda agenda = new Agenda();
 
@@ -85,11 +86,8 @@ public class AgendaService {
                 .anyMatch(contato -> contato.equals(novoContato));
 
         if (contatoExiste) {
-            // TODO trocar retorno por lancamento de exception
-            // throw new ContatoJaRegistradoException(novoContato.getNome());
             mensagens.contatoExiste();
-
-            return;
+            throw new ContatoJaRegistradoException(novoContato.getNome());
         }
         agenda.getContatos().add(novoContato);
     }
@@ -98,7 +96,7 @@ public class AgendaService {
         agenda.getContatos().forEach(System.out::println);
     }
 
-    public List<Contato> buscarContato(String contatoProcurado) { // 3
+    public List<Contato> buscarContato(String contato) { // 3
 
         List<Contato> contatosEncontrados = agenda
                 .getContatos()
@@ -109,6 +107,9 @@ public class AgendaService {
         if (contatosEncontrados.size() == 0) {
             System.err.println("Contato não encontrado. ");
         }
+
+        // List<Contato> contatos = listaContatos.stream().filter(cont -> cont.getPessoa().getNomeCompleto().toLowerCase().contains(contato.toLowerCase())).collect(Collectors.toList());
+        // if(contatos.size() == 0) System.err.println("Contato não encontrado. ");
 
         return contatosEncontrados;
     }
@@ -131,7 +132,11 @@ public class AgendaService {
 
     public void imprimirBuscarContato() {
         String contato = view.buscarContato("------- BUSCAR CONTATO -------");
-        buscarContato(contato).forEach(System.out::println);
+        buscarContato(contato).forEach(cont -> {
+            System.out.println((contador + 1) + ": " + cont);
+            contador++;
+        });
+        contador = 0;
     }
 
     public void removerContato() { // 4
@@ -161,6 +166,19 @@ public class AgendaService {
             }
         });
 
+    }
+
+    public void adicionarEnderecoParaContato() { // 7
+
+        String contato = view.buscarContato("------- ADD ENDEREÇO -------");
+        List<Contato> contatosEncontrados = buscarContato(contato);
+        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
+        List<Endereco> enderecos = view.pegarEnderecos();
+        agenda.getContatos().forEach(cont -> {
+            if (cont.equals(contatoSelecionado)) {
+                cont.setEnderecos(enderecos);
+            }
+        });
     }
 
     public void removerTelefoneParaContato() { // 8
@@ -198,6 +216,7 @@ public class AgendaService {
                 cont.setEnderecos(enderecos);
             }
         });
+
     }
 
     public void removerEnderecoParaContato() { // 9
@@ -212,6 +231,11 @@ public class AgendaService {
         System.out.println("Foi/Foram apagado(s) " + quantidadeApagados + " endereço(s).");
     }
 
+    public void listarTodosTelefonesParaContato() {// 11
+        String contato = view.buscarContato("------- BUSCAR CONTATO -------");
+        List<Contato> contatosEncontrados = buscarContato(contato);
+        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
+        view.mostrarTelefones(contatoSelecionado);
     public void pegarDdd() {
 
         Scanner sc = new Scanner(System.in);
@@ -239,19 +263,84 @@ public class AgendaService {
 
 
     public void listarTodosEnderecosParaContato() { // 12
+        String contato = view.buscarContato("------- BUSCAR CONTATO -------");
+        List<Contato> contatosEncontrados = buscarContato(contato);
+        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
+        view.mostrarEnderecos(contatoSelecionado);
+    }
+
+    public Contato buscarContatoPorTelefone(String numeroTelefone) { // 13
+
+        Contato contato;
+        List<Contato> contatosEncontrados = agenda.getContatos().stream()
+        .filter(cont -> cont.getTelefones().stream().anyMatch(tel -> tel.getNumeroTelefone().contains(numeroTelefone))).collect(Collectors.toList());
+
+        if (contatosEncontrados.size() == 0) {
+            System.err.println("Contato não encontrado. ");
+            return null;
+        }
+        else{
+
+            contato = view.escolherContato(contatosEncontrados);
+        }
         String contato = view.buscarContato("------- BUSCAR ENDEREÇO -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         view.mostrarTodosEnderecosParaContato(contatoSelecionado);
     }
 
+        return contato;
+    }
 
     public void exibirTodasInformacoesTelefone() {
 
+    public void exibirTodasInformacoesTelefone(){
+        String numeroTelefone = view.buscarContatoPorTelefone();
+        Contato contato = buscarContatoPorTelefone(numeroTelefone);
+        view.mostrarTodasInformacoesParaContato(contato);
+    }
+
+    public Contato buscarContatoPorEndereco(String enderecoOpcao) { // 13
+        if(enderecoOpcao == null){
+            System.err.println("Opção inválida. ");
+            return null;
+        }
+        String[] apoio = enderecoOpcao.split(",");
+        Contato contato;
+        List<Contato> contatosEncontrados;
+        switch (apoio[0]){
+            case "1" -> {
+                contatosEncontrados = agenda.getContatos().stream()
+                  .filter(cont -> cont.getEnderecos().stream().anyMatch(lograd -> lograd.getLogradouro().contains(apoio[1]))).collect(Collectors.toList());
+            }
+            case "2" -> {
+                contatosEncontrados = agenda.getContatos().stream()
+                  .filter(cont -> cont.getEnderecos().stream().anyMatch(cep -> cep.getCep().contains(apoio[1]))).collect(Collectors.toList());
+            }
+            default -> {
+                contatosEncontrados = new ArrayList<>();
+                System.err.println("Opção inválida. ");
+            }
+        }
+
+
+        if (contatosEncontrados.size() == 0) {
+            System.err.println("Contato não encontrado. ");
+            return null;
+        }
+        else{
+
+            contato = view.escolherContato(contatosEncontrados);
+        }
+
+        return contato;
     }
 
     public void exibirTodasInformacoesEndereco() { // 14
-
+        String endereco = view.buscarContatoPorEndereco();
+        if(endereco == null) return;
+        Contato contato = buscarContatoPorEndereco(endereco);
+        view.mostrarTodasInformacoesParaContato(contato);
     }
 
 

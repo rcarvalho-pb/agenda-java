@@ -3,8 +3,6 @@ package view;
 import model.Contato;
 import model.Endereco;
 import model.Telefone;
-import common.Constantes;
-import service.AgendaService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +16,7 @@ public class AgendaView {
         System.out.println("--------------------------------------------------");
         System.out.println("XXXX  Olá! Digite a opção que você deseja:  XXXX");
         System.out.println("--------------------------------------------------");
+        System.out.println("---------- MENU ----------");
         System.out.println("1 - Adicionar Contato");
         System.out.println("2 - Listar");
         System.out.println("3 - Buscar Contato");
@@ -38,7 +37,8 @@ public class AgendaView {
         System.out.println("18 - Exportar todos os contatos para um arquivo texto ");
         System.out.println("19 - Importar todos os contatos de um arquivo texto ");
         System.out.println("20 - Sair do Programa ");
-        System.out.print("> ");
+        System.out.print("\n> ");
+
 
         return scan.nextLine();
 
@@ -88,6 +88,7 @@ public class AgendaView {
     public Contato escolherContato(List<Contato> contatos) { //Para buscar um contato para editar
 
         if(!(contatos.size() == 1)){
+            contatos.forEach(System.out::println);
             System.out.println("Qual contato? ");
             System.out.print("> ");
             Integer opcao = scan.nextInt() - Constantes.INDEX_FATOR;
@@ -96,7 +97,7 @@ public class AgendaView {
         }
 
 
-        
+
         return contatos.get(0);
     }
 
@@ -137,26 +138,42 @@ public class AgendaView {
         return telefones;
     }
 
-    public List<Endereco> pegarEndereco() {
-        
-        System.out.println("Qual o logradouro? ");
-        System.out.print("> ");
-        String logradouro = scan.nextLine();
-        System.out.println("Qual o CEP? ");
-        System.out.print("> ");
-        String cep = scan.nextLine();
-        System.out.println("Qual o número? ");
-        System.out.print("> ");
-        String numero = scan.nextLine();
-        System.out.println("Qual o Cidade? ");
-        System.out.print("> ");
-        String cidade = scan.nextLine();
-        System.out.println("Qual o Estado? ");
-        System.out.print("> ");
-        String estado = scan.nextLine();
+    public List<Endereco> pegarEnderecos() {
         List<Endereco> enderecos = new ArrayList<>();
+        boolean continuarLoop = true;
+        do{
 
-        enderecos.add(new Endereco(logradouro, cep, numero, cidade, estado));
+            System.out.println("Qual o logradouro? ");
+            System.out.print("> ");
+            String logradouro = scan.nextLine();
+            System.out.println("Qual o CEP? ");
+            System.out.print("> ");
+            String cep = scan.nextLine();
+            System.out.println("Qual o número? ");
+            System.out.print("> ");
+            String numero = scan.nextLine();
+            System.out.println("Qual o Cidade? ");
+            System.out.print("> ");
+            String cidade = scan.nextLine();
+            System.out.println("Qual o Estado? ");
+            System.out.print("> ");
+            String estado = scan.nextLine();
+
+            enderecos.add(new Endereco(logradouro, cep, numero, cidade, estado));
+            System.out.println("Deseja adicionar outro endereço? ");
+            switch (scan.nextLine()){
+                case "s", "sim":
+                    continue;
+                case "n", "nao":
+                    continuarLoop = false;
+                    break;
+                default:
+                    System.err.println("Comando Inválido. ");
+                    break;
+            }
+
+        }while(continuarLoop);
+
         return enderecos;
     }
 
@@ -171,13 +188,14 @@ public class AgendaView {
             Integer opcao = scan.nextInt() - Constantes.INDEX_FATOR;
             scan.nextLine();
             return contato.getTelefones().get(opcao);
-
-
+        }
+        
+        return contato.getTelefones().get(0);
     }
 
     public void mostrarTodasInformacoesParaContato(Contato contato) {
         if(contato.getTelefones() == null && contato.getEnderecos() != null) System.out.println(contato.getNome()
-            + ", " + contato.getEmail() 
+            + ", " + contato.getEmail()
             + "\nEndereço: \n " + contato.getEnderecos());
 
         if(contato.getTelefones() != null && contato.getEnderecos() == null) System.out.println(contato.getNome() + ", "
@@ -215,5 +233,63 @@ public class AgendaView {
         scan.close();
         System.out.println("Encerrando o programa. ");
         return false;
+    }
+
+    public void mostrarTelefones(Contato contato) {
+        contato.getTelefones().forEach(System.out::println);;
+    }
+
+    public Endereco escolherEndereco(Contato contato) {
+
+        if(!(contato.getEnderecos().size() == 1)){
+            System.out.println("Qual telefone a remover? ");
+            System.out.print("> ");
+            Integer opcao = scan.nextInt() - 1;
+            scan.nextLine();
+            return contato.getEnderecos().get(opcao);
+        }
+
+        return contato.getEnderecos().get(0);
+    }
+
+    public void mostrarEnderecos(Contato contato) {
+        contato.getEnderecos().forEach(System.out::println);
+    }
+
+    public String buscarContatoPorTelefone() {
+        System.out.println("Telefone sem DDD: ");
+        System.out.print("> ");
+        String numeroTelefone = scan.nextLine();
+        return numeroTelefone;
+    }
+
+    public String buscarContatoPorEndereco() {
+        String endereco;
+        System.out.println("""
+                ------- BUSCAR -------
+                1 - LOGRADOURO
+                2 - CEP
+                """);
+        System.out.print("> ");
+        switch (scan.nextLine()) {
+            case "1" -> {
+                endereco = "1,";
+                System.out.println("Logradouro: ");
+                System.out.print("> ");
+                String logradouro = scan.nextLine();
+                endereco += logradouro;
+            }
+            case "2" -> {
+                endereco = "2,";
+                System.out.println("CEP: ");
+                System.out.print("> ");
+                String cep = scan.nextLine();
+                endereco += cep;
+            }
+            default -> {
+                endereco = null;
+            }
+        }
+        return endereco;
     }
 }
