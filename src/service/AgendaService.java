@@ -110,8 +110,10 @@ public class AgendaService {
     public void adicionarTelefoneParaContato() { // 6
         String contato = view.buscarContato("------- ADD TELEFONE -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
-        if (contatosEncontrados.size() < 1)
+        if (contatosEncontrados.size() < 1){
+            
             return;
+        }
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         List<Telefone> telefones = view.pegarNovoTelefone();
         agenda.getContatos().forEach(cont -> {
