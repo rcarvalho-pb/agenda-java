@@ -81,9 +81,7 @@ public class AgendaService {
     public void adicionarContato() { // 1
 //        Contato novoContato = new Contato;
         Contato novoContato = view.AdicionarContato();
-        boolean contatoExiste = agenda.getContatos()
-                .stream()
-                .anyMatch(contato -> contato.equals(novoContato));
+        boolean contatoExiste = agenda.getContatos().stream().anyMatch(contato -> contato.equals(novoContato));
 
         if (contatoExiste) {
             mensagens.contatoExiste();
@@ -98,11 +96,7 @@ public class AgendaService {
 
     public List<Contato> buscarContato(String contato) { // 3
 
-        List<Contato> contatosEncontrados = agenda
-                .getContatos()
-                .stream()
-                .filter(c -> c.getNome().toLowerCase().contains(contatoProcurado.toLowerCase()))
-                .collect(Collectors.toList());
+        List<Contato> contatosEncontrados = agenda.getContatos().stream().filter(c -> c.getNome().toLowerCase().contains(contato.toLowerCase())).collect(Collectors.toList());
 
         if (contatosEncontrados.size() == 0) {
             System.err.println("Contato não encontrado. ");
@@ -119,7 +113,6 @@ public class AgendaService {
 //            case "2" -> menu();
 //            default -> System.out.println("Opcão inválida");
 //        }
-
 
 
     public void mostrarTodasInformacoesParaContato() { // 10
@@ -156,8 +149,7 @@ public class AgendaService {
     public void adicionarTelefoneParaContato() { // 6
         String contato = view.buscarContato("------- ADD TELEFONE -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
-        if (contatosEncontrados.size() < 1)
-            return;
+        if (contatosEncontrados.size() < 1) return;
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         List<Telefone> telefones = view.pegarNovoTelefone();
         agenda.getContatos().forEach(cont -> {
@@ -169,7 +161,6 @@ public class AgendaService {
     }
 
     public void adicionarEnderecoParaContato() { // 7
-
         String contato = view.buscarContato("------- ADD ENDEREÇO -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
@@ -188,10 +179,7 @@ public class AgendaService {
         Telefone telefone = view.escolherTelefoneRemover(contatoSelecionado);
 //        System.out.println(telefone);
 //        System.out.println(contato);
-        long quantidadeApagados = agenda.getContatos().stream()
-                .filter(cont -> cont.equals(contatoSelecionado))
-                .map(cont -> cont.getTelefones().remove(telefone))
-                .count();
+        long quantidadeApagados = agenda.getContatos().stream().filter(cont -> cont.equals(contatoSelecionado)).map(cont -> cont.getTelefones().remove(telefone)).count();
         System.out.println("Foi/Foram apagado(s) " + quantidadeApagados + " telefone(s).");
 
     }
@@ -205,37 +193,17 @@ public class AgendaService {
 
 
     // XXXXXXXXXXXXXXXXXXX ENDERECOS XXXXXXXXXXXXXXXXXXX
-    public void adicionarEnderecoParaContato() { // 7
-
-        String contato = view.buscarContato("------- ADD ENDEREÇO -------");
-        List<Contato> contatosEncontrados = buscarContato(contato);
-        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        List<Endereco> enderecos = view.pegarEndereco();
-        agenda.getContatos().forEach(cont -> {
-            if (cont.equals(contatoSelecionado)) {
-                cont.setEnderecos(enderecos);
-            }
-        });
-
-    }
 
     public void removerEnderecoParaContato() { // 9
         String contato = view.buscarContato("------- REMOVER ENDEREÇO -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         Endereco endereco = view.escolherEnderecoRemover(contatoSelecionado);
-        long quantidadeApagados = agenda.getContatos().stream()
-                .filter(cont -> cont.equals(contatoSelecionado))
-                .map(cont -> cont.getEnderecos().remove(endereco))
-                .count();
+        long quantidadeApagados = agenda.getContatos().stream().filter(cont -> cont.equals(contatoSelecionado)).map(cont -> cont.getEnderecos().remove(endereco)).count();
         System.out.println("Foi/Foram apagado(s) " + quantidadeApagados + " endereço(s).");
     }
 
-    public void listarTodosTelefonesParaContato() {// 11
-        String contato = view.buscarContato("------- BUSCAR CONTATO -------");
-        List<Contato> contatosEncontrados = buscarContato(contato);
-        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        view.mostrarTelefones(contatoSelecionado);
+
     public void pegarDdd() {
 
         Scanner sc = new Scanner(System.in);
@@ -254,14 +222,6 @@ public class AgendaService {
     }
 
 
-//    public void listarTodosTelefonesParaContato() {// 11
-//        String contato = view.buscarContato("------- BUSCAR CONTATO -------");
-//        List<Contato> contatosEncontrados = buscarContato(contato);
-//        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-//        view.mostrarTodasTelefonesParaContato(contatoSelecionado);
-//    }
-
-
     public void listarTodosEnderecosParaContato() { // 12
         String contato = view.buscarContato("------- BUSCAR CONTATO -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
@@ -272,50 +232,39 @@ public class AgendaService {
     public Contato buscarContatoPorTelefone(String numeroTelefone) { // 13
 
         Contato contato;
-        List<Contato> contatosEncontrados = agenda.getContatos().stream()
-        .filter(cont -> cont.getTelefones().stream().anyMatch(tel -> tel.getNumeroTelefone().contains(numeroTelefone))).collect(Collectors.toList());
+
+        List<Contato> contatosEncontrados = agenda.getContatos().stream().filter(cont -> cont.getTelefones().stream().anyMatch(tel -> tel.getNumeroTelefone().contains(numeroTelefone))).collect(Collectors.toList());
 
         if (contatosEncontrados.size() == 0) {
             System.err.println("Contato não encontrado. ");
             return null;
         }
-        else{
 
-            contato = view.escolherContato(contatosEncontrados);
-        }
-        String contato = view.buscarContato("------- BUSCAR ENDEREÇO -------");
-        List<Contato> contatosEncontrados = buscarContato(contato);
-        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        view.mostrarTodosEnderecosParaContato(contatoSelecionado);
-    }
-
-        return contato;
+        contato = view.escolherContato(contatosEncontrados);
+        return null;
+        // TODO ?
     }
 
     public void exibirTodasInformacoesTelefone() {
-
-    public void exibirTodasInformacoesTelefone(){
         String numeroTelefone = view.buscarContatoPorTelefone();
         Contato contato = buscarContatoPorTelefone(numeroTelefone);
         view.mostrarTodasInformacoesParaContato(contato);
     }
 
     public Contato buscarContatoPorEndereco(String enderecoOpcao) { // 13
-        if(enderecoOpcao == null){
+        if (enderecoOpcao == null) {
             System.err.println("Opção inválida. ");
             return null;
         }
         String[] apoio = enderecoOpcao.split(",");
         Contato contato;
         List<Contato> contatosEncontrados;
-        switch (apoio[0]){
+        switch (apoio[0]) {
             case "1" -> {
-                contatosEncontrados = agenda.getContatos().stream()
-                  .filter(cont -> cont.getEnderecos().stream().anyMatch(lograd -> lograd.getLogradouro().contains(apoio[1]))).collect(Collectors.toList());
+                contatosEncontrados = agenda.getContatos().stream().filter(cont -> cont.getEnderecos().stream().anyMatch(lograd -> lograd.getLogradouro().contains(apoio[1]))).collect(Collectors.toList());
             }
             case "2" -> {
-                contatosEncontrados = agenda.getContatos().stream()
-                  .filter(cont -> cont.getEnderecos().stream().anyMatch(cep -> cep.getCep().contains(apoio[1]))).collect(Collectors.toList());
+                contatosEncontrados = agenda.getContatos().stream().filter(cont -> cont.getEnderecos().stream().anyMatch(cep -> cep.getCep().contains(apoio[1]))).collect(Collectors.toList());
             }
             default -> {
                 contatosEncontrados = new ArrayList<>();
@@ -327,8 +276,7 @@ public class AgendaService {
         if (contatosEncontrados.size() == 0) {
             System.err.println("Contato não encontrado. ");
             return null;
-        }
-        else{
+        } else {
 
             contato = view.escolherContato(contatosEncontrados);
         }
@@ -338,7 +286,7 @@ public class AgendaService {
 
     public void exibirTodasInformacoesEndereco() { // 14
         String endereco = view.buscarContatoPorEndereco();
-        if(endereco == null) return;
+        if (endereco == null) return;
         Contato contato = buscarContatoPorEndereco(endereco);
         view.mostrarTodasInformacoesParaContato(contato);
     }
