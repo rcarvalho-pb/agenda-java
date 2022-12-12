@@ -10,10 +10,10 @@ public class Telefone {
     public Telefone() {
     }
 
-    public Telefone(String ddd, String numeroTelefone) {
-        this.ddd = ddd;
-        this.numeroTelefone = numeroTelefone;
-    }
+    // public Telefone(String ddd, String numeroTelefone) {
+    //     this.ddd = ddd;
+    //     this.numeroTelefone = numeroTelefone;
+    // }
 
     // parsing phone numbers
     public Telefone(String telefoneCompleto) {
