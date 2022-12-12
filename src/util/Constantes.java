@@ -1,4 +1,4 @@
-package common;
+package util;
 
 public class Constantes{
 

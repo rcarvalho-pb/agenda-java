@@ -1,6 +1,6 @@
 package view;
 
-import common.Constantes;
+import util.Constantes;
 import model.Contato;
 import model.Endereco;
 import model.Telefone;
@@ -84,12 +84,11 @@ public class AgendaView {
 
     public Contato escolherContato(List<Contato> contatos) { //Para buscar um contato para editar
 
-        if (!(contatos.size() == 1)) {
-            contatos.forEach(System.out::println);
+        if (contatos.size() > 1) {
             System.out.println("Qual contato? ");
             System.out.print("> ");
-            Integer opcao = scan.nextInt() - Constantes.INDEX_FATOR;
-            scan.nextLine();
+
+            Integer opcao = Integer.parseInt(scan.nextLine()) - Constantes.INDEX_FATOR;
             return contatos.get(opcao);
         }
         
@@ -108,25 +107,17 @@ public class AgendaView {
 
     public List<Telefone> pegarNovoTelefone() {
         List<Telefone> telefones = new ArrayList<>();
+
         boolean continuarLoop = true;
+
         do {
             System.out.println("Informe o DDD e o Número de telefone: ");
             System.out.print("> ");
             String numeroTelefone = scan.nextLine();
             Telefone telefone = new Telefone(numeroTelefone);
             telefones.add(telefone);
+            continuarLoop = perguntarAoUsuario("Deseja adicionar outro telefone?");
 
-            System.out.println("Deseja adicionar outro telefone? \n [1] sim [2] não");
-            switch (scan.nextLine()) {
-                case "1":
-                    continue;
-                case "2":
-                    continuarLoop = false;
-                    break;
-                default:
-                    System.err.println("Comando Inválido.");
-                    break;
-            }
         } while (continuarLoop);
 
 
@@ -155,18 +146,7 @@ public class AgendaView {
             String estado = scan.nextLine();
 
             enderecos.add(new Endereco(logradouro, cep, numero, cidade, estado));
-            // TODO ajeitar para ficar parecido com o anterior usando [1] e [2]
-            System.out.println("Deseja adicionar outro endereço? ");
-            switch (scan.nextLine()) {
-                case "s", "sim":
-                    continue;
-                case "n", "nao":
-                    continuarLoop = false;
-                    break;
-                default:
-                    System.err.println("Comando Inválido. ");
-                    break;
-            }
+            continuarLoop = perguntarAoUsuario("Deseja adicionar outro endereço?");
 
         } while (continuarLoop);
 
@@ -196,28 +176,26 @@ public class AgendaView {
             System.err.println("Contato inexistente. ");
             return;
         }
+
         System.out.println(contato);
     }
 
-    // TODO toString personalizada para outputs especificos
-    public void mostrarTodasTelefonesParaContato(Contato contato) {
-        contato.getTelefones().forEach(telefone -> {
-            System.out.println("(" + telefone.getDDD() + ") " + telefone.getNumeroTelefone());
-        });
+    public void mostrarTodasInformacoesParaContato(long id, Contato contato) {
+
+        if(contato == null) {
+            System.err.println("Contato inexistente. ");
+            return;
+        }
+
+        System.out.println(id + " : " + contato);
     }
 
-    // TODO método duplicado com ação de cima
     public void mostrarTelefones(Contato contato) {
         contato.getTelefones().forEach(System.out::println);
     }
 
-
     public void mostrarTodosEnderecosParaContato(Contato contato) {
-        // TODO completar informações do endereço
-        contato.getEnderecos().forEach(endereco -> {
-            System.out.println("Cep:" + endereco.getCep()
-                    + " Cidade: " + endereco.getCidade());
-        });
+        contato.getEnderecos().forEach(System.out::println);
     }
 
     public boolean sairPrograma() {
@@ -278,5 +256,19 @@ public class AgendaView {
             }
         }
         return endereco;
+    }
+
+    private boolean perguntarAoUsuario(String pedido) {
+        System.out.println( pedido + " [1] sim [2] não");
+        System.out.print("> ");
+        switch (scan.nextLine()) {
+            case "1":
+                return true;
+            case "2":
+                return false;
+            default:
+                System.err.println("Comando Inválido.");
+                return false;
+        }
     }
 }
