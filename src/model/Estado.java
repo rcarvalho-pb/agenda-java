@@ -6,7 +6,7 @@ public enum Estado {
      * Arrumar a lógica para receber o ddd e retornar o estado
      */
 
-    RO(69, "ro"),
+    RO(69, "Ro"),
     AC(68, "ac"),
     AM(92, "am"),
     RR(95, "rr"),
@@ -58,7 +58,7 @@ public enum Estado {
         this.uf = uf;
     }
 
-    public static Estado pegarDdd(String uf){
+    public static Estado pegarEstadoDoDDD(String uf){
         Estado estado = null;
         if(!uf.isEmpty()) {
             if(RO.uf.equals(uf)){
@@ -67,27 +67,43 @@ public enum Estado {
                 estado = AC;
             } else if(AM.uf.equals(uf)){
                 estado = AM;
-//            } else if(RR.uf.equals(uf)){
-//                uf = RR;
-//            } else if(PA.uf.equals(uf)){
-//                uf = PA;
-//            } else if(AP.uf.equals(uf)){
-//                uf = AP;
-//            } else if(TO.uf.equals(uf)){
-//                uf = TO;
-//            } else if(MA.uf.equals(uf)){
-//                uf = MA;
-//            } else if(PI.uf.equals(uf)){
-//                uf = PI;
-//            } else if(CE.uf.equals(uf)){
-//                uf = CE;
-//            } else if(RN.uf.equals(uf)){
-//                uf = RN;
-//            } else if(PB.uf.equals(uf)){
-//                uf = PB;
+            } else if(RR.uf.equals(uf)){
+                estado = RR;
+            } else if(PA.uf.equals(uf)){
+                estado = PA;
+            } else if(AP.uf.equals(uf)){
+                estado = AP;
+            } else if(TO.uf.equals(uf)){
+                estado = TO;
+            } else if(MA.uf.equals(uf)){
+                estado = MA;
+            } else if(PI.uf.equals(uf)){
+                estado = PI;
+            } else if(CE.uf.equals(uf)){
+                estado = CE;
+            } else if(RN.uf.equals(uf)){
+                estado = RN;
+            } else if(PE.uf.equals(uf)){
+                estado = PE;
+            }else if(AL.uf.equals(uf)) {
+                estado = AL;
             }
+//           else if(PB.uf.equals(uf)){
+//                estado = PB;
+//            }else if(PB.uf.equals(uf)){
+//                estado = PB;
+//            }else if(PB.uf.equals(uf)){
+//                estado = PB;
+//            }else if(PB.uf.equals(uf)){
+//                estado = PB;
+//            }
+
+
+
+
         }
         return estado;
     }
+
 
 }

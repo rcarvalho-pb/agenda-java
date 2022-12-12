@@ -16,6 +16,7 @@ public class Telefone {
     // }
 
     // parsing phone numbers
+
     public Telefone(String telefoneCompleto) {
         String[] linha = telefoneCompleto.split(" ");
         this.ddd = linha[0];

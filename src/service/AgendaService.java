@@ -6,6 +6,7 @@ import model.*;
 import view.AgendaView;
 import view.Mensagens;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,6 +19,8 @@ import exception.ContatoJaRegistradoException;
 public class AgendaService {
 
     Mensagens mensagens = new Mensagens();
+
+    Scanner scan = new Scanner(System.in);
 
     int contador = 0;
     AgendaView view = new AgendaView();
@@ -74,7 +77,7 @@ public class AgendaService {
                     case Constantes.EXIBIR_LISTA_ENDERECOS_COM_PAGINACAO -> exibirListaEnderecosComPaginacao(); // 17
                     case Constantes.EXPORTAR_TODOS_CONTACTOS_PARA_TXT -> exportarTodosContatosParaTXT(); // 18
                     case Constantes.IMPORTAR_TODOS_CONTACTOS_PARA_TXT -> importarTodosContatosParaTXT(); // 19
-                    case "21" -> pegarDdd(); // 19
+//                    case "21" -> view.pegarDdd();
                     case Constantes.SAIR_PROGRAMA -> continueMenu = sairPrograma();
                     default -> throw new EntradaInvalidaOuInsuficienteException("Comando invalido!");
                 }
@@ -98,6 +101,7 @@ public class AgendaService {
             throw new ContatoJaRegistradoException(novoContato.getNome());
         }
         agenda.getContatos().add(novoContato);
+        mensagens.mensagemContatoCriado();
     }
 
     public void listarContatos() { // 2
@@ -143,6 +147,32 @@ public class AgendaService {
         agenda.getContatos().clear();
     }
 
+    public List<Telefone> pegarNovoTelefone() {
+        List<Telefone> telefones = new ArrayList<>();
+
+        boolean continuarLoop;
+
+        do {
+            Estado estadoOpcao = Estado.pegarEstadoDoDDD(view.pegarUF());
+            int ddd = estadoOpcao.getDdd();
+            System.out.println("Informe o número de telefone: ");
+            System.out.print("> ");
+            String telefoneSemDDD = scan.nextLine();
+            StringBuilder sb = new StringBuilder();
+            sb.append(ddd);
+            sb.append(" ");
+            sb.append(telefoneSemDDD);
+            String numeroTelefone = sb.toString();
+            Telefone telefone = new Telefone(numeroTelefone);
+            telefones.add(telefone);
+            continuarLoop = view.perguntarAoUsuario("Deseja adicionar outro telefone?");
+
+        } while (continuarLoop);
+
+
+        return telefones;
+    }
+
 
     public void adicionarTelefoneParaContato() { // 6
         AtomicLong i = new AtomicLong(Constantes.INDEX_FATOR);
@@ -157,12 +187,13 @@ public class AgendaService {
         }
 
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        List<Telefone> telefones = view.pegarNovoTelefone();
+        List<Telefone> telefones = pegarNovoTelefone();
 
         agenda.getContatos().forEach(cont -> {
             if (cont.equals(contatoSelecionado))
                 cont.addAll(telefones);
         });
+        mensagens.mensagemTelefoneAdicionadoSucesso();
 
     }
 
@@ -176,6 +207,7 @@ public class AgendaService {
                 cont.setEnderecos(enderecos);
             }
         });
+        mensagens.mensagemEnderecoAdicionadoSucesso();
     }
 
     public void removerTelefoneParaContato() { // 8
@@ -232,22 +264,6 @@ public class AgendaService {
         view.mostrarEnderecos(contatoSelecionado);
     }
 
-    public void pegarDdd() {
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Digite UF: ");
-        String uf = sc.nextLine();
-
-        Estado estadoOpcao = Estado.pegarDdd(uf);
-
-        switch (estadoOpcao) {
-            case RO -> System.out.println(Estado.RO.getDdd());
-            case AC -> System.out.println(Estado.AC.getDdd());
-            case AM -> System.out.println(Estado.AM.getDdd());
-            default -> System.out.println("Digite um uf válido");
-        }
-
-    }
 
     public Contato buscarContatoPorTelefone(String numeroTelefone)
             throws ContatoNaoEncontradoException { // 13
@@ -265,6 +281,14 @@ public class AgendaService {
             throw new ContatoNaoEncontradoException(numeroTelefone);
 
         return view.escolherContato(contatosEncontrados);
+
+
+    }
+
+    public int pegarDDD(){
+        Estado estadoOpcao = Estado.pegarEstadoDoDDD(view.pegarUF());
+        return estadoOpcao.getDdd();
+
     }
 
     public void exibirTodasInformacoesTelefone() {

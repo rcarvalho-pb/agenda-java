@@ -1,15 +1,16 @@
 package view;
 
+import model.*;
+import service.AgendaService;
 import util.Constantes;
-import model.Contato;
-import model.Endereco;
-import model.Telefone;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class AgendaView {
+
+
 
     Scanner scan = new Scanner(System.in);
 
@@ -105,24 +106,16 @@ public class AgendaView {
 
     }
 
-    public List<Telefone> pegarNovoTelefone() {
-        List<Telefone> telefones = new ArrayList<>();
+    public String pegarUF() {
 
-        boolean continuarLoop = true;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite UF: ");
+        String uf = sc.nextLine().toLowerCase();
 
-        do {
-            System.out.println("Informe o DDD e o Número de telefone: ");
-            System.out.print("> ");
-            String numeroTelefone = scan.nextLine();
-            Telefone telefone = new Telefone(numeroTelefone);
-            telefones.add(telefone);
-            continuarLoop = perguntarAoUsuario("Deseja adicionar outro telefone?");
-
-        } while (continuarLoop);
-
-
-        return telefones;
+        return uf;
     }
+
+
 
     public List<Endereco> pegarEnderecos() {
         List<Endereco> enderecos = new ArrayList<>();
@@ -258,7 +251,7 @@ public class AgendaView {
         return endereco;
     }
 
-    private boolean perguntarAoUsuario(String pedido) {
+    public boolean perguntarAoUsuario(String pedido) {
         System.out.println( pedido + " [1] sim [2] não");
         System.out.print("> ");
         switch (scan.nextLine()) {
