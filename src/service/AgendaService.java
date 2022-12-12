@@ -112,20 +112,12 @@ public class AgendaService {
         return contatosEncontrados;
     }
 
+    // TODO rever switch voando
 //        switch (opcoesContatoNaoEncontradoAlvo) {
 //            case "1" -> view.buscarContato("------- BUSCAR CONTATO -------");
 //            case "2" -> menu();
 //            default -> System.out.println("Opcão inválida");
 //        }
-
-
-    public void mostrarTodasInformacoesParaContato() { // 10
-        String contato = view.buscarContato("------- BUSCAR CONTATO -------");
-        List<Contato> contatosEncontrados = buscarContato(contato);
-        Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        view.mostrarTodasInformacoesParaContato(contatoSelecionado);
-    }
-
 
     public void imprimirBuscarContato() {
         String contato = view.buscarContato("------- BUSCAR CONTATO -------");
