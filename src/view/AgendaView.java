@@ -1,4 +1,5 @@
 package view;
+import view.Mensagens;
 
 import util.Constantes;
 import model.Contato;
@@ -12,6 +13,7 @@ import java.util.Scanner;
 public class AgendaView {
 
     Scanner scan = new Scanner(System.in);
+    Mensagens mensagens = new Mensagens();
 
     public String opcaoMenu(){
         System.out.println("---------- MENU ----------");
