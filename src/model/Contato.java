@@ -1,27 +1,28 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Contato {
     
     private String nome;
-    private String sobreNome;
+    private String sobrenome;
     private List<Telefone> telefones;
     private List<Endereco> enderecos;
     private String email;
 
-
-    public Contato(String nome, String sobreNome, String email) {
+    public Contato(String nome, String sobrenome, String email) {
+        telefones = new ArrayList<>();
+        enderecos = new ArrayList<>();
         this.nome = nome;
-        this.sobreNome = sobreNome;
+        this.sobrenome = sobrenome;
         this.email = email;
     }
 
-    public Contato(String nome, List<Telefone> telefones, List<Endereco> enderecos, String email) {
-        this.nome = nome;
+    public Contato(String nome, String sobrenome, List<Telefone> telefones, List<Endereco> enderecos, String email) {
+        this(nome, sobrenome, email);
         this.telefones = telefones;
         this.enderecos = enderecos;
-        this.email = email;
     }
 
     public String getNome() {
@@ -36,8 +37,12 @@ public class Contato {
         return telefones;
     }
 
-    public void setTelefones(List<Telefone> telefones){
-        this.telefones = telefones;
+    public void addAll(List<Telefone> telefones){
+        this.telefones.addAll(telefones);
+    }
+
+    public void add(Telefone telefone) {
+        this.telefones.add(telefone);
     }
     
     public String getEmail() {
@@ -56,12 +61,19 @@ public class Contato {
         this.enderecos = enderecos;
     }
 
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-        result = prime * result + ((sobreNome == null) ? 0 : sobreNome.hashCode());
+        result = prime * result + ((sobrenome == null) ? 0 : sobrenome.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         return result;
     }
@@ -90,7 +102,30 @@ public class Contato {
 
     @Override
     public String toString(){
-        return nome + ", " + email;
+        if (!telefones.isEmpty() && !enderecos.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(nome + " " + sobrenome + ", " + email);
+            sb.append(enderecos);
+            sb.append(telefones);
+            return sb.toString();
+        }
+
+        if (telefones.isEmpty() && !enderecos.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(nome + " " + sobrenome + ", " + email);
+            sb.append(enderecos);
+            return sb.toString();
+        }
+
+        if (!telefones.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(nome + " " + sobrenome + ", " + email);
+            sb.append(telefones);
+            return sb.toString();
+        }
+
+        return nome + " " + sobrenome + ", " + email;
     }
-  
+
+
 }
