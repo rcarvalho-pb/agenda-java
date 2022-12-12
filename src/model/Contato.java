@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Contato {
@@ -10,19 +11,18 @@ public class Contato {
     private List<Endereco> enderecos;
     private String email;
 
-
     public Contato(String nome, String sobrenome, String email) {
+        telefones = new ArrayList<>();
+        enderecos = new ArrayList<>();
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
     }
 
     public Contato(String nome, String sobrenome, List<Telefone> telefones, List<Endereco> enderecos, String email) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
+        this(nome, sobrenome, email);
         this.telefones = telefones;
         this.enderecos = enderecos;
-        this.email = email;
     }
 
     public String getNome() {
@@ -37,8 +37,12 @@ public class Contato {
         return telefones;
     }
 
-    public void setTelefones(List<Telefone> telefones){
-        this.telefones = telefones;
+    public void addAll(List<Telefone> telefones){
+        this.telefones.addAll(telefones);
+    }
+
+    public void add(Telefone telefone) {
+        this.telefones.add(telefone);
     }
     
     public String getEmail() {
@@ -98,20 +102,22 @@ public class Contato {
 
     @Override
     public String toString(){
-        if (telefones != null && enderecos != null) {
+        if (!telefones.isEmpty() && !enderecos.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             sb.append(nome + " " + sobrenome + ", " + email);
             sb.append(enderecos);
             sb.append(telefones);
             return sb.toString();
         }
-        if (telefones == null && enderecos != null) {
+
+        if (telefones.isEmpty() && !enderecos.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             sb.append(nome + " " + sobrenome + ", " + email);
             sb.append(enderecos);
             return sb.toString();
         }
-        if (telefones != null && enderecos == null) {
+
+        if (!telefones.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             sb.append(nome + " " + sobrenome + ", " + email);
             sb.append(telefones);
@@ -119,7 +125,6 @@ public class Contato {
         }
 
         return nome + " " + sobrenome + ", " + email;
-
     }
 
 
