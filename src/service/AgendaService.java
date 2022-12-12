@@ -158,7 +158,7 @@ public class AgendaService {
                     + mensagens.emailContato()) + "" + emailEncontrado[i]);
 
         }
-        contador = 0;
+
     }
 
     public void removerContato() { // 4
