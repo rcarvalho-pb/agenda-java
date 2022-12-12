@@ -1,13 +1,12 @@
 package view;
-import view.Mensagens;
 
 import model.*;
-import service.AgendaService;
 import util.Constantes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class AgendaView {
 
@@ -88,8 +87,14 @@ public class AgendaView {
     public Contato escolherContato(List<Contato> contatos) { //Para buscar um contato para editar
 
         if (contatos.size() > 1) {
+            AtomicInteger contador = new AtomicInteger(Constantes.INDEX_FATOR);
+            contatos.forEach(contato ->{
+                System.out.println(contador+ ": "+contato);
+                contador.getAndIncrement();
+            });
             System.out.println("Qual contato? ");
             System.out.print("> ");
+
 
             Integer opcao = Integer.parseInt(scan.nextLine()) - Constantes.INDEX_FATOR;
             return contatos.get(opcao);

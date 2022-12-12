@@ -29,7 +29,7 @@ public class AgendaService {
     public void menu() {
         boolean continueMenu = true;
 
-
+        boolean retornarMenu = true;
         while (continueMenu) {
             String option = (view.opcaoMenu());
 
@@ -78,7 +78,10 @@ public class AgendaService {
                     case Constantes.EXPORTAR_TODOS_CONTACTOS_PARA_TXT -> exportarTodosContatosParaTXT(); // 18
                     case Constantes.IMPORTAR_TODOS_CONTACTOS_PARA_TXT -> importarTodosContatosParaTXT(); // 19
 //                    case "21" -> view.pegarDdd();
-                    case Constantes.SAIR_PROGRAMA -> continueMenu = sairPrograma();
+                    case Constantes.SAIR_PROGRAMA -> {
+                        retornarMenu = false;
+                        continueMenu = sairPrograma();
+                    }
                     default -> throw new EntradaInvalidaOuInsuficienteException("Comando invalido!");
                 }
             } catch (ContatoNaoEncontradoException | ContatoJaRegistradoException e) {
@@ -87,7 +90,9 @@ public class AgendaService {
                 System.out.println(ignored.getMessage());
             }
 
-            aguardarRepeticaoMenu();
+            if(retornarMenu){
+                aguardarRepeticaoMenu();
+            }
         }
     }
 
@@ -117,7 +122,7 @@ public class AgendaService {
                 .toList();
 
         if (contatosEncontrados.size() == 0) {
-            System.err.println("Contato não encontrado. ");
+            throw new ContatoNaoEncontradoException();
         }
 
         return contatosEncontrados ;
@@ -134,34 +139,7 @@ public class AgendaService {
 
         String contato = view.buscarContato("------- BUSCAR CONTATO -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
-
-        StringBuilder nomesEncontrados = new StringBuilder();
-        for (Contato contatos:contatosEncontrados) {
-            nomesEncontrados.append(contatos.getNome());
-            nomesEncontrados.append(" ");
-
-        }
-        StringBuilder sobreNomesEncontrados = new StringBuilder();
-        for (Contato contatos:contatosEncontrados){
-            sobreNomesEncontrados.append(contatos.getSobrenome());
-            sobreNomesEncontrados.append(" ");
-
-        }
-        StringBuilder emailEncontrados = new StringBuilder();
-        for (Contato contatos:contatosEncontrados){
-            emailEncontrados.append(contatos.getEmail());
-            emailEncontrados.append(" ");
-
-        }
-        String [] nomeEncontrado =  nomesEncontrados.toString().split(" ");
-        String [] sobrenomeEncontrado =  sobreNomesEncontrados.toString().split(" ");
-        String [] emailEncontrado =  emailEncontrados.toString().split(" ");
-        for (int i = 0; i < nomeEncontrado.length; i++) {
-            System.out.println((mensagens.nomeContato() + ""+ nomeEncontrado[i] + " "
-                    + mensagens.sobrrenomeContato()+ ""+ sobrenomeEncontrado[i] + " "
-                    + mensagens.emailContato()) + "" + emailEncontrado[i]);
-
-        }
+        contatosEncontrados.forEach(System.out::println);
 
     }
 
@@ -183,16 +161,9 @@ public class AgendaService {
         boolean continuarLoop;
 
         do {
-            Estado estadoOpcao = Estado.pegarEstadoDoDDD(view.pegarUF());
-            int ddd = estadoOpcao.getDdd();
             System.out.println("Informe o número de telefone: ");
             System.out.print("> ");
-            String telefoneSemDDD = scan.nextLine();
-            StringBuilder sb = new StringBuilder();
-            sb.append(ddd);
-            sb.append(" ");
-            sb.append(telefoneSemDDD);
-            String numeroTelefone = sb.toString();
+            String numeroTelefone = scan.nextLine();
             Telefone telefone = new Telefone(numeroTelefone);
             telefones.add(telefone);
             continuarLoop = view.perguntarAoUsuario("Deseja adicionar outro telefone?");
