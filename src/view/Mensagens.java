@@ -6,8 +6,9 @@ public class Mensagens{
         return "Contato existe.";
     }
 
+
     public void mensagemContatoCriado(){
-        System.out.println("Contato criado com sucesso!");;
+        System.out.println("Contato criado com sucesso!");
     }
 
     public void mensagemTelefoneAdicionadoSucesso(){
@@ -17,5 +18,17 @@ public class Mensagens{
     public void mensagemEnderecoAdicionadoSucesso(){
         System.out.println("Endereco(s) adicionado(s) com sucesso!");
     }
+
+    public String nomeContato(){
+        return "Nome: ";
+    }
+    public String sobrrenomeContato(){
+        return "Sobrenome: ";
+    }
+
+    public String emailContato(){
+        return  "email: ";
+    }
+
 
 }

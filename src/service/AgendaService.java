@@ -108,7 +108,7 @@ public class AgendaService {
         agenda.getContatos().forEach(System.out::println);
     }
 
-    public List<Contato> buscarContato(String contato) { // 3
+    public List<Contato>buscarContato(String contato) { // 3
 
         List<Contato> contatosEncontrados = agenda
                 .getContatos()
@@ -120,19 +120,49 @@ public class AgendaService {
             System.err.println("Contato não encontrado. ");
         }
 
-        // List<Contato> contatos = listaContatos.stream().filter(cont -> cont.getPessoa().getNomeCompleto().toLowerCase().contains(contato.toLowerCase())).collect(Collectors.toList());
-        // if(contatos.size() == 0) System.err.println("Contato não encontrado. ");
+        return contatosEncontrados ;
 
-        return contatosEncontrados;
+
+
+
+
+
+
     }
 
     public void imprimirBuscarContato() {
+
         String contato = view.buscarContato("------- BUSCAR CONTATO -------");
-        buscarContato(contato).forEach(cont -> {
-            System.out.println((contador + 1) + ": " + cont);
-            contador++;
-        });
-        contador = 0;
+        List<Contato> contatosEncontrados = buscarContato(contato);
+
+        StringBuilder nomesEncontrados = new StringBuilder();
+        for (Contato contatos:contatosEncontrados) {
+            nomesEncontrados.append(contatos.getNome());
+            nomesEncontrados.append(" ");
+
+        }
+        StringBuilder sobreNomesEncontrados = new StringBuilder();
+        for (Contato contatos:contatosEncontrados){
+            sobreNomesEncontrados.append(contatos.getSobrenome());
+            sobreNomesEncontrados.append(" ");
+
+        }
+        StringBuilder emailEncontrados = new StringBuilder();
+        for (Contato contatos:contatosEncontrados){
+            emailEncontrados.append(contatos.getEmail());
+            emailEncontrados.append(" ");
+
+        }
+        String [] nomeEncontrado =  nomesEncontrados.toString().split(" ");
+        String [] sobrenomeEncontrado =  sobreNomesEncontrados.toString().split(" ");
+        String [] emailEncontrado =  emailEncontrados.toString().split(" ");
+        for (int i = 0; i < nomeEncontrado.length; i++) {
+            System.out.println((mensagens.nomeContato() + ""+ nomeEncontrado[i] + " "
+                    + mensagens.sobrrenomeContato()+ ""+ sobrenomeEncontrado[i] + " "
+                    + mensagens.emailContato()) + "" + emailEncontrado[i]);
+
+        }
+
     }
 
     public void removerContato() { // 4
