@@ -7,6 +7,10 @@ public class Mensagens{
         return "Contato existe.";
     }
 
+    public void mensagemTelefoneExiste(){
+        System.out.println("Telefone Existe");
+    }
+
     public void mensagemNomeDoContatoParaTelefone(String contato){
         System.out.println("Telefone(s) do(a) "+contato+":");
     }

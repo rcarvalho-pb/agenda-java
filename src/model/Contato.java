@@ -83,23 +83,23 @@ public class Contato {
 
         if (!telefones.isEmpty() && !enderecos.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email+" \n");
-            sb.append("Endereco(s): "+enderecos);
-            sb.append("Telefone(s): "+telefones);
+            sb.append("Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email);
+            sb.append(enderecos);
+            sb.append(telefones);
             return sb.toString();
         }
 
         if (telefones.isEmpty() && !enderecos.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email+" \n");
-            sb.append("Endereco(s): "+enderecos);
+            sb.append("Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email);
+            sb.append(enderecos);
             return sb.toString();
         }
 
         if (!telefones.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email+" \n");
-            sb.append("Endereco(s): "+enderecos);
+            sb.append("Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email);
+            sb.append(enderecos);
             return sb.toString();
         }
 

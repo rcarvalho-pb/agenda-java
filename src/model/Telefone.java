@@ -1,6 +1,9 @@
 package model;
 
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Telefone {
   
@@ -56,6 +59,15 @@ public class Telefone {
         return " (" + ddd + ") " + numeroTelefone + "\n";
     }
 
+    public static <Telefone> List<Telefone> removeTelefonesDuplicados(List<Telefone> list )
+    {
+
+        Set<Telefone> set = new LinkedHashSet<>();
+        set.addAll(list);
+        list.clear();
+        list.addAll(set);
+        return list;
+    }
   
 
 }
