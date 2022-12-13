@@ -91,11 +91,11 @@ public class AgendaView {
             contatos.forEach(contato ->{
                 System.out.println(contador+ ": "+contato);
                 contador.getAndIncrement();
+
             });
-            System.out.println("Qual contato? ");
+            System.out.println(" ");
+            System.out.println("Digite o indice do contato: ");
             System.out.print("> ");
-
-
             Integer opcao = Integer.parseInt(scan.nextLine()) - Constantes.INDEX_FATOR;
             return contatos.get(opcao);
         }
@@ -111,15 +111,6 @@ public class AgendaView {
         scan.nextLine();
         return contato.getEnderecos().get(opcao);
 
-    }
-
-    public String pegarUF() {
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Digite UF: ");
-        String uf = sc.nextLine().toLowerCase();
-
-        return uf;
     }
 
 

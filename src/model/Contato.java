@@ -87,7 +87,9 @@ public class Contato {
         if (!telefones.isEmpty() && !enderecos.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             sb.append("Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email);
+            sb.append(" ");
             sb.append(enderecos);
+            sb.append(" ");
             sb.append(telefones);
             return sb.toString();
         }
@@ -95,6 +97,7 @@ public class Contato {
         if (telefones.isEmpty() && !enderecos.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             sb.append("Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email);
+            sb.append(" ");
             sb.append(enderecos);
             return sb.toString();
         }
@@ -102,6 +105,7 @@ public class Contato {
         if (!telefones.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             sb.append("Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email);
+            sb.append(" ");
             sb.append(telefones);
             return sb.toString();
         }
