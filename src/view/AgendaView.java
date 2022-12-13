@@ -236,7 +236,10 @@ public class AgendaView {
 
 
     public void mostrarTelefones(Contato contato) {
-        contato.getTelefones().forEach(System.out::println);
+        mensagens.mensagemNomeDoContatoParaTelefone(contato.getNome());
+        for (int i = 0; i < contato.getTelefones().size(); i++) {
+            System.out.println("Telefone "+(i+1)+": "+contato.getTelefones().get(i));
+        }
     }
 
     public void mostrarTodosEnderecosParaContato(Contato contato) {
@@ -263,7 +266,10 @@ public class AgendaView {
     }
 
     public void mostrarEnderecos(Contato contato) {
-        contato.getEnderecos().forEach(System.out::println);
+        mensagens.mensagemNomeDoContatoParaEndereco(contato.getNome());
+        for (int i = 0; i < contato.getEnderecos().size(); i++) {
+            System.out.println("Telefone "+(i+1)+": "+contato.getEnderecos().get(i));
+        }
     }
 
     public String buscarContatoPorTelefone() {

@@ -1,10 +1,20 @@
 package view;
 
+
 public class Mensagens{
 
     public String contatoExiste(){
         return "Contato existe.";
     }
+
+    public void mensagemNomeDoContatoParaTelefone(String contato){
+        System.out.println("Telefone(s) do(a) "+contato+":");
+    }
+    public void mensagemNomeDoContatoParaEndereco(String contato){
+        System.out.println("Endereco(s) do(a) "+contato+":");
+    }
+
+
 
     public void contatoRemovido(){
         System.out.println("Contato removido com sucesso! ");
