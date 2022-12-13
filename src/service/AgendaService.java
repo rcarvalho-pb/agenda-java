@@ -213,7 +213,7 @@ public class AgendaService {
 
         agenda.getContatos().forEach(cont -> {
             if (cont.equals(contatoSelecionado))
-                cont.addAll(telefones);
+                cont.addAllTelefones(telefones);
         });
         mensagens.mensagemTelefoneAdicionadoSucesso();
 
@@ -226,7 +226,7 @@ public class AgendaService {
         List<Endereco> enderecos = view.pegarEnderecos();
         agenda.getContatos().forEach(cont -> {
             if (cont.equals(contatoSelecionado)) {
-                cont.setEnderecos(enderecos);
+                cont.addAllEnderecos(enderecos);
             }
         });
         mensagens.mensagemEnderecoAdicionadoSucesso();

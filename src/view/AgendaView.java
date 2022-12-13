@@ -2,6 +2,7 @@ package view;
 
 import model.*;
 import util.Constantes;
+import exception.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +99,8 @@ public class AgendaView {
             System.out.print("> ");
             Integer opcao = Integer.parseInt(scan.nextLine()) - Constantes.INDEX_FATOR;
             return contatos.get(opcao);
+        } else {
+            System.out.println(contatos.get(0));
         }
         
         return contatos.get(0);
@@ -164,22 +167,73 @@ public class AgendaView {
     public void mostrarTodasInformacoesParaContato(Contato contato) {
 
         if(contato == null) {
-            System.err.println("Contato inexistente. ");
-            return;
+            throw new ContatoNaoEncontradoException();
         }
 
-        System.out.println(contato);
+        System.out.println(imprimirInformacoesContato(contato));
     }
 
     public void mostrarTodasInformacoesParaContato(long id, Contato contato) {
 
         if(contato == null) {
-            System.err.println("Contato inexistente. ");
-            return;
+            throw new ContatoNaoEncontradoException();
+        }        
+
+        System.out.println(id + " : " + imprimirInformacoesContato(contato));
+    }
+
+
+    public String imprimirInformacoesContato(Contato contato) {
+        if (!contato.getTelefones().isEmpty() && !contato.getEnderecos().isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+
+            /*
+             * 
+             * sb.append(String.format(
+                "Nome: %s \n" +
+                "Sobrenome: %s \n" +
+                "Empresa: %s \n",
+                nome, sobreNome, empresa
+        ));
+        sb.append("Telefones: ");
+             */
+
+            sb.append(String.format("""
+                    Nome: %s
+                    Sobrenome: %s
+                    Email: %s
+                    """,
+                    contato.getNome(), contato.getSobrenome(), contato.getEmail()));
+            sb.append("Endereços: \n");
+            // sb.append(contato.getEnderecos() + "\n");
+            contato.getEnderecos().forEach(endereco -> sb.append(endereco));
+
+            sb.append("Telefones: \n");
+            contato.getTelefones().forEach(telefone -> sb.append(telefone));
+
+            return sb.toString();
         }
 
-        System.out.println(id + " : " + contato);
+        if (contato.getTelefones().isEmpty() && !contato.getEnderecos().isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Nome: "+ contato.getNome() + ", Sobrenome: " + contato.getSobrenome() + ", Email: " + contato.getEmail());
+            sb.append(" ");
+            sb.append(contato.getEnderecos());
+            return sb.toString();
+        }
+
+        if (!contato.getTelefones().isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Nome: "+ contato.getNome() + ", Sobrenome: " + contato.getSobrenome() + ", Email: " + contato.getEmail());
+            sb.append(" ");
+            sb.append(contato.getTelefones());
+            return sb.toString();
+        }
+
+        return "Nome: "+ contato.getNome() + ", Sobrenome: " + contato.getSobrenome() + ", Email: " + contato.getEmail();
     }
+
+
 
     public void mostrarTelefones(Contato contato) {
         contato.getTelefones().forEach(System.out::println);
