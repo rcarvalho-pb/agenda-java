@@ -47,4 +47,8 @@ public class Constantes{
     public static final String CEP = "2";
     public static final int OPCAO_ENDERECO = 0;
 
+    public static final int REGISTRO_UNICO = 1;
+
+    public static final int INDEX_ZERO = 0;
+
 }

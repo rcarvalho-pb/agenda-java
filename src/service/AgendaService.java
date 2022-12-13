@@ -76,7 +76,7 @@ public class AgendaService {
                             exibirTodasInformacoesEndereco(); // 9
                     case Constantes.RETORNAR_MENU_PRINCIPAL -> {
                         continueMenu = false;
-                        menu();
+                        break;
                     }
                     default -> throw new EntradaInvalidaOuInsuficienteException("Comando invalido!");
                 }
@@ -176,22 +176,20 @@ public class AgendaService {
 
     }
 
-    public List<Telefone> pegarNovoTelefone() {
+    public List<Telefone> pegarNovoTelefone(List<Telefone> telefonesAtuais) {
         List<Telefone> telefones = new ArrayList<>();
-
         boolean continuarLoop;
-
-
 
         do {
             String numeroTelefone = view.pegarTelefone();
             Telefone telefone = new Telefone(numeroTelefone);
+            var telefoneExisteAtuais = telefonesAtuais.stream().anyMatch(t-> t.equals(telefone));
             var telefoneExiste = telefones.stream().anyMatch(t -> t.equals(telefone));
-            if (telefoneExiste) {
+            if (telefoneExiste || telefoneExisteAtuais) {
                 mensagens.mensagemTelefoneExiste();
-                throw new TelefoneJaRegistradoException();
+            }else {
+                telefones.add(telefone);
             }
-            telefones.add(telefone);
             continuarLoop = view.perguntarAoUsuario("Deseja adicionar outro telefone?");
 
         } while (continuarLoop);
@@ -203,22 +201,17 @@ public class AgendaService {
 
 
     public void adicionarTelefoneParaContato() { // 6
-        AtomicLong i = new AtomicLong(Constantes.INDEX_FATOR);
 
         String contato = view.buscarContato("------- ADD TELEFONE -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
 
-        if(contatosEncontrados.size() == 1){
-            System.out.println(contatosEncontrados.get(0));
-        }
+//        if(contatosEncontrados.size() == Constantes.CONTATO_UNICO){
+//            System.out.println(contatosEncontrados.get(Constantes.INDEX_ZERO));
+//        }
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        List<Telefone> telefones = pegarNovoTelefone();
+        List<Telefone> telefones = pegarNovoTelefone(contatoSelecionado.getTelefones());
+        contatoSelecionado.addAllTelefones(telefones);
 
-        agenda.getContatos().forEach(cont -> {
-            if (cont.equals(contatoSelecionado))
-                cont.addAllTelefones(telefones);
-        });
-        Telefone.removeTelefonesDuplicados(telefones);
         mensagens.mensagemTelefoneAdicionadoSucesso();
 
     }
