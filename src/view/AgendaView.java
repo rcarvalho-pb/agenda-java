@@ -5,6 +5,7 @@ import util.Constantes;
 import exception.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -98,21 +99,20 @@ public class AgendaView {
     public Contato escolherContato(List<Contato> contatos) { //Para buscar um contato para editar
 
         if (contatos.size() > Constantes.CONTATO_UNICO) {
-            AtomicInteger contador = new AtomicInteger(Constantes.INDEX_FATOR);
-            contatos.forEach(contato ->{
-                System.out.println(contador+ ": "+contato);
-                contador.getAndIncrement();
+            int contador = Constantes.INDEX_FATOR;
+            for (Contato contato: contatos) {
+                System.out.println(contador + ": "+contato);
+                contador++;
+            }
 
-            });
             System.out.println(" ");
             System.out.println("Digite o indice do contato: ");
             System.out.print("> ");
             Integer opcao = Integer.parseInt(scan.nextLine()) - Constantes.INDEX_FATOR;
             return contatos.get(opcao);
-        }/** else {
-            *System.out.println(contatos.get(0));
-        *}
-        */
+        }else{
+            System.out.println(contatos.get(0));
+        }
         
         return contatos.get(0);
     }
@@ -132,7 +132,10 @@ public class AgendaView {
         List<Endereco> enderecos = new ArrayList<>();
         boolean continuarLoop;
         do {
-
+            System.out.println("Qual o tipo de endereco? ");
+            System.out.println("[1] RESIDENCIAL - [2] COMERCIAL - [3] CAIXA_POSTAL ");
+            System.out.print("> ");
+            TipoEndereco tipoEndereco = TipoEndereco.pegarEndereco(scan.nextLine());
             System.out.println("Qual o logradouro? ");
             System.out.print("> ");
             String logradouro = scan.nextLine();
@@ -149,7 +152,8 @@ public class AgendaView {
             System.out.print("> ");
             String estado = scan.nextLine();
 
-            enderecos.add(new Endereco(logradouro, cep, numero, cidade, estado));
+
+            enderecos.add(new Endereco(logradouro, cep, numero, cidade, estado, tipoEndereco));
             continuarLoop = perguntarAoUsuario("Deseja adicionar outro endereço?");
 
         } while (continuarLoop);
