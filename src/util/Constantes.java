@@ -31,5 +31,16 @@ public class Constantes{
     public static final int INDEX_FATOR = 1;
     public static final String RESP_SIM = "1";
     public static final String RESP_NAO = "2";
+    public static final int LISTA_VAZIA = 0;
+
+    public static final int CONTATO_UNICO = 1;
+
+    public static final int TELEFONE_UNICO = 1;
+
+    public static final int ENDERECO_UNICO = 1;
+
+    public static final String LOGRADOURO = "1";
+    public static final String CEP = "2";
+    public static final int OPCAO_ENDERECO = 0;
 
 }
