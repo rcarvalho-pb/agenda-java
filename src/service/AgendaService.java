@@ -31,22 +31,13 @@ public class AgendaService {
                     case Constantes.BUSCAR_CONTATO -> imprimirBuscarContato(); // 3
                     case Constantes.REMOVER_CONTATO -> removerContato(); // 4
                     case Constantes.REMOVER_TODOS_CONTATOS -> removerTodosContatos(); // 5
-                    case Constantes.ADICIONAR_TELEFONE_PARA_CONTATO -> adicionarTelefoneParaContato(); // 6
-                    case Constantes.ADICIONAR_ENDERECO_PARA_CONTATO -> adicionarEnderecoParaContato(); // 7
-                    case Constantes.REMOVER_TELEFONE_PARA_CONTATO -> removerTelefoneParaContato();// 8
-                    case Constantes.REMOVER_ENDERECO_PARA_CONTATO -> removerEnderecoParaContato();// 9
-                    case Constantes.MOSTRAR_TODAS_INFORMACOES_CONTATO -> mostrarTodasInformacoesParaContato(); // 10
-                    case Constantes.LISTAR_TODOS_TELEFONES_PARA_UM_CONTATO -> listarTodosTelefonesParaContato(); // 11
-                    case Constantes.LISTAR_TODOS_ENDERECOS_PARA_UM_CONTATO -> listarTodosEnderecosParaContato(); // 12
-                    case Constantes.EXIBIR_TODAS_INFORMACOES_TELEFONE_CONTATO_NA_AGENDA ->
-                            exibirTodasInformacoesTelefone(); // 13
-                    case Constantes.EXIBIR_TODAS_INFORMACOES_ENDERECO_CONTATO_NA_AGENDA ->
-                            exibirTodasInformacoesEndereco(); // 14
-                    case Constantes.EXIBIR_LISTA_CONTATOS_COM_PAGINACAO -> exibirListaContatosComPaginacao(); // 15 - AINDA FALTA
-                    case Constantes.EXIBIR_LISTA_TELEFONES_COM_PAGINACAO -> exibirListaTelefonesComPaginacao(); // 16 AINDA FALTA
-                    case Constantes.EXIBIR_LISTA_ENDERECOS_COM_PAGINACAO -> exibirListaEnderecosComPaginacao(); // 17 AINDA FALTA
-                    case Constantes.EXPORTAR_TODOS_CONTACTOS_PARA_TXT -> exportarTodosContatosParaTXT(); // 18 AINDA FALTA
-                    case Constantes.IMPORTAR_TODOS_CONTACTOS_PARA_TXT -> importarTodosContatosParaTXT(); // 19 AINDA FALTA
+                    case Constantes.INFORMACOES_CONTATO -> menuContato(); // 6
+                    
+                    case Constantes.EXIBIR_LISTA_CONTATOS_COM_PAGINACAO -> exibirListaContatosComPaginacao(); // 7 - AINDA FALTA
+                    case Constantes.EXIBIR_LISTA_TELEFONES_COM_PAGINACAO -> exibirListaTelefonesComPaginacao(); // 8 AINDA FALTA
+                    case Constantes.EXIBIR_LISTA_ENDERECOS_COM_PAGINACAO -> exibirListaEnderecosComPaginacao(); // 9 AINDA FALTA
+                    case Constantes.EXPORTAR_TODOS_CONTACTOS_PARA_TXT -> exportarTodosContatosParaTXT(); // 10 AINDA FALTA
+                    case Constantes.IMPORTAR_TODOS_CONTACTOS_PARA_TXT -> importarTodosContatosParaTXT(); // 11 AINDA FALTA
                     case Constantes.SAIR_PROGRAMA -> {
                         retornarMenu = false;
                         continueMenu = sairPrograma();
@@ -63,6 +54,40 @@ public class AgendaService {
                 aguardarRepeticaoMenu();
             }
         }
+    }
+
+    public void menuContato() {
+
+        boolean continueMenu = true;
+        while (continueMenu) {
+            String option = (view.opcaoMenuContato());
+            try {
+                switch (option) {
+                    case Constantes.ADICIONAR_TELEFONE_PARA_CONTATO -> adicionarTelefoneParaContato(); // 1
+                    case Constantes.ADICIONAR_ENDERECO_PARA_CONTATO -> adicionarEnderecoParaContato(); // 2
+                    case Constantes.REMOVER_TELEFONE_PARA_CONTATO -> removerTelefoneParaContato();// 3
+                    case Constantes.REMOVER_ENDERECO_PARA_CONTATO -> removerEnderecoParaContato();// 4
+                    case Constantes.MOSTRAR_TODAS_INFORMACOES_CONTATO -> mostrarTodasInformacoesParaContato(); // 5
+                    case Constantes.LISTAR_TODOS_TELEFONES_PARA_UM_CONTATO -> listarTodosTelefonesParaContato(); // 6
+                    case Constantes.LISTAR_TODOS_ENDERECOS_PARA_UM_CONTATO -> listarTodosEnderecosParaContato(); // 7
+                    case Constantes.EXIBIR_TODAS_INFORMACOES_TELEFONE_CONTATO_NA_AGENDA ->
+                            exibirTodasInformacoesTelefone(); // 8
+                    case Constantes.EXIBIR_TODAS_INFORMACOES_ENDERECO_CONTATO_NA_AGENDA ->
+                            exibirTodasInformacoesEndereco(); // 9
+                    case Constantes.RETORNAR_MENU_PRINCIPAL -> {
+                        continueMenu = false;
+                        menu();
+                    }
+                    default -> throw new EntradaInvalidaOuInsuficienteException("Comando invalido!");
+                }
+            } catch (ContatoNaoEncontradoException | ContatoJaRegistradoException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception ignored) {
+                System.out.println(ignored.getMessage());
+            }
+        }
+        
+
     }
 
     public void adicionarContato() { // 1
@@ -159,9 +184,7 @@ public class AgendaService {
 
 
         do {
-            System.out.println("Informe o número de telefone: ");
-            System.out.print("> ");
-            String numeroTelefone = scan.nextLine();
+            String numeroTelefone = view.pegarTelefone();
             Telefone telefone = new Telefone(numeroTelefone);
             var telefoneExiste = telefones.stream().anyMatch(t -> t.equals(telefone));
             if (telefoneExiste) {
