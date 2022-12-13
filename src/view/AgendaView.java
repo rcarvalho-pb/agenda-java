@@ -23,23 +23,33 @@ public class AgendaView {
         System.out.println("3 - Buscar Contato");
         System.out.println("4 - Remover um contato");
         System.out.println("5 - Remover todos os contatos");
-        System.out.println("6 - Adicionar telefone para contato");
-        System.out.println("7 - Adicionar um endereço a um contato");
-        System.out.println("8 - Remover um telefone de um contato da agenda");
-        System.out.println("9 - Remover um endereço de um contato da agenda");
-        System.out.println("10 - Exibir todas as informações de um contato da agenda");
-        System.out.println("11 - Listar todos os telefones de um contato da agenda");
-        System.out.println("12 - Listar todos os endereços de um contato da agenda");
-        System.out.println("13 - Exibir todas as informações de um telefone de um contato da agenda");
-        System.out.println("14 - Exibir todas as informações de um endereço de um contato da agenda");
-        System.out.println("15 - Exibir a lista de contatos com paginação");
-        System.out.println("16 - Exibir a lista de telefones com paginaçã");
-        System.out.println("17 -  Exibir a lista de endereços com paginação");
-        System.out.println("18 - Exportar todos os contatos para um arquivo texto ");
-        System.out.println("19 - Importar todos os contatos de um arquivo texto ");
-        System.out.println("20 - Sair do Programa ");
+        System.out.println("6 - Informações Contatos");
+        System.out.println("7 - Exibir a lista de contatos com paginação");
+        System.out.println("8 - Exibir a lista de telefones com paginaçã");
+        System.out.println("9 -  Exibir a lista de endereços com paginação");
+        System.out.println("10 - Exportar todos os contatos para um arquivo texto ");
+        System.out.println("11 - Importar todos os contatos de um arquivo texto ");
+        System.out.println("12 - Sair do Programa ");
         System.out.print("\n> ");
 
+
+        return scan.nextLine();
+
+    }
+
+    public String opcaoMenuContato() {
+        System.out.println("---------- MENU INFORMAÇÕES CONTATO ----------");
+        System.out.println("1 - Adicionar telefone para contato");
+        System.out.println("2 - Adicionar um endereço a um contato");
+        System.out.println("3 - Remover um telefone de um contato da agenda");
+        System.out.println("4 - Remover um endereço de um contato da agenda");
+        System.out.println("5 - Exibir todas as informações de um contato da agenda");
+        System.out.println("6 - Listar todos os telefones de um contato da agenda");
+        System.out.println("7 - Listar todos os endereços de um contato da agenda");
+        System.out.println("8 - Exibir todas as informações de um telefone de um contato da agenda");
+        System.out.println("9 - Exibir todas as informações de um endereço de um contato da agenda");
+        System.out.println("10 - Retornar ao menu principal");
+        System.out.print("\n> ");        
 
         return scan.nextLine();
 
@@ -78,7 +88,7 @@ public class AgendaView {
         System.out.print("> ");
         String sobrenome = scan.nextLine();
 
-        System.out.println("E-mail do Contato");
+        System.out.println("E-mail do Contato: ");
         System.out.print("> ");
         String email = scan.nextLine();
 
@@ -145,6 +155,13 @@ public class AgendaView {
         } while (continuarLoop);
 
         return enderecos;
+    }
+
+    public String pegarTelefone() {
+        System.out.println("Informe o número de telefone: (DDD e Número - 00 000000000) ");
+        System.out.print("> ");
+        String numeroTelefone = scan.nextLine();
+        return numeroTelefone;
     }
 
     public Telefone escolherTelefoneRemover(Contato contato) {
@@ -247,6 +264,7 @@ public class AgendaView {
     }
 
     public boolean sairPrograma() {
+        scan.match();
         scan.close();
         System.out.println("Encerrando o programa. ");
         return false;
