@@ -29,5 +29,7 @@ public class Constantes{
     // Contatos Service
 
     public static final int INDEX_FATOR = 1;
+    public static final String RESP_SIM = "1";
+    public static final String RESP_NAO = "2";
 
 }

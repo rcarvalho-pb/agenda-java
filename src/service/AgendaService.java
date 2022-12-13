@@ -1,5 +1,6 @@
 package service;
 
+import exception.AgendaVaziaException;
 import exception.ContatoNaoEncontradoException;
 import exception.EntradaInvalidaOuInsuficienteException;
 import model.*;
@@ -35,7 +36,7 @@ public class AgendaService {
 
             try {
                 switch (option) {
-                    //1 ---- pede somente nome -- tem que adicionar sobrenome
+
                     case Constantes.ADICIONAR_CONTATO -> adicionarContato(); // 1
                     //2 falta cabeçalho para facilitar visualizacao - padronizar todos os nomes com a primeira maiuscula?
                     case Constantes.LISTAR_CONTATO -> listarContatos(); // 2
@@ -110,6 +111,10 @@ public class AgendaService {
     }
 
     public void listarContatos() { // 2
+
+        if (agenda.getContatos().isEmpty()){
+            throw new AgendaVaziaException();
+        }
         agenda.getContatos().forEach(System.out::println);
     }
 
@@ -147,12 +152,31 @@ public class AgendaService {
         String contatoARemover = view.buscarContato("------- REMOVER CONTATO -------");
         List<Contato> contatosEncontrados = buscarContato(contatoARemover);
         Contato contatoEscolhido = view.escolherContato(contatosEncontrados);
-        agenda.getContatos().remove(contatoEscolhido);
+        mensagens.confirmacaoExcluirContato();
+        var resposta = scan.nextLine();
+        switch(resposta){
+            case Constantes.RESP_SIM -> {
+                agenda.getContatos().remove(contatoEscolhido);
+                mensagens.contatoRemovido();
+            }
+            case Constantes.RESP_NAO -> mensagens.operacaoCancelada();
+            default-> throw new EntradaInvalidaOuInsuficienteException("Entrada invalida. ");
+        }
 
     }
 
     public void removerTodosContatos() { // 5
-        agenda.getContatos().clear();
+        mensagens.confirmacaoExcluirContatos();
+        var resposta = scan.nextLine();
+        switch(resposta){
+            case Constantes.RESP_SIM -> {
+                agenda.getContatos().clear();
+                mensagens.contatosRemovidos();
+            }
+            case Constantes.RESP_NAO -> mensagens.operacaoCancelada();
+            default-> throw new EntradaInvalidaOuInsuficienteException("Entrada invalida. ");
+        }
+
     }
 
     public List<Telefone> pegarNovoTelefone() {
@@ -181,18 +205,15 @@ public class AgendaService {
         String contato = view.buscarContato("------- ADD TELEFONE -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
 
-        if (contatosEncontrados.size() > 1) {
-            System.out.println();
-            contatosEncontrados.forEach(c -> view.mostrarTodasInformacoesParaContato(i.getAndIncrement(), c));
-            System.out.println();
+        if(contatosEncontrados.size() == 1){
+            System.out.println(contatosEncontrados.get(0));
         }
-
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         List<Telefone> telefones = pegarNovoTelefone();
 
         agenda.getContatos().forEach(cont -> {
             if (cont.equals(contatoSelecionado))
-                cont.addAll(telefones);
+                cont.addAllTelefones(telefones);
         });
         mensagens.mensagemTelefoneAdicionadoSucesso();
 
@@ -205,7 +226,7 @@ public class AgendaService {
         List<Endereco> enderecos = view.pegarEnderecos();
         agenda.getContatos().forEach(cont -> {
             if (cont.equals(contatoSelecionado)) {
-                cont.setEnderecos(enderecos);
+                cont.addAllEnderecos(enderecos);
             }
         });
         mensagens.mensagemEnderecoAdicionadoSucesso();
@@ -217,13 +238,23 @@ public class AgendaService {
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         Telefone telefone = view.escolherTelefoneRemover(contatoSelecionado);
 
-        long quantidadeApagados = agenda
-                .getContatos()
-                .stream()
-                .filter(cont -> cont.equals(contatoSelecionado))
-                .map(cont -> cont.getTelefones().remove(telefone))
-                .count();
-        System.out.println("Foi/Foram apagado(s) " + quantidadeApagados + " telefone(s).");
+        mensagens.confirmacaoExcluirTelefone();
+        String resposta = scan.nextLine();
+        switch(resposta){
+            case Constantes.RESP_SIM -> {
+                 agenda.getContatos()
+                        .stream()
+                        .filter(cont -> cont.equals(contatoSelecionado))
+                        .findFirst()
+                        .orElseThrow(ContatoNaoEncontradoException::new)
+                        .getTelefones()
+                        .remove(telefone);
+                mensagens.telefonesApagados();
+            }
+            case Constantes.RESP_NAO -> mensagens.operacaoCancelada();
+            default-> throw new EntradaInvalidaOuInsuficienteException("Entrada invalida. ");
+        }
+
 
     }
 
@@ -232,14 +263,25 @@ public class AgendaService {
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         Endereco endereco = view.escolherEnderecoRemover(contatoSelecionado);
-        long quantidadeApagados = agenda
-                .getContatos()
-                .stream()
-                .filter(cont -> cont.equals(contatoSelecionado))
-                .map(cont -> cont.getEnderecos().remove(endereco))
-                .count();
 
-        System.out.println("Foi/Foram apagado(s) " + quantidadeApagados + " endereço(s).");
+        mensagens.confirmacaoExcluirEndereco();
+        String resposta = scan.nextLine();
+        switch(resposta){
+            case Constantes.RESP_SIM -> {
+                agenda.getContatos()
+                        .stream()
+                        .filter(cont -> cont.equals(contatoSelecionado))
+                        .findFirst()
+                        .orElseThrow(ContatoNaoEncontradoException::new)
+                        .getEnderecos()
+                        .remove(endereco);
+
+                mensagens.enderecosApagados();
+            }
+            case Constantes.RESP_NAO -> mensagens.operacaoCancelada();
+            default-> throw new EntradaInvalidaOuInsuficienteException("Entrada invalida. ");
+        }
+
 
     }
 
@@ -286,11 +328,6 @@ public class AgendaService {
 
     }
 
-    public int pegarDDD(){
-        Estado estadoOpcao = Estado.pegarEstadoDoDDD(view.pegarUF());
-        return estadoOpcao.getDdd();
-
-    }
 
     public void exibirTodasInformacoesTelefone() {
         String numeroTelefone = view.buscarContatoPorTelefone();

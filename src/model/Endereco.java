@@ -60,8 +60,8 @@ public class Endereco {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append(" Rua: " + logradouro + ", N: " + numero + ", CEP: " + cep);
-        sb.append("\n Cidade: " + cidade + ", Estado: " + estado);
+        sb.append(" Logradouro: " + logradouro + ", N: " + numero + ", CEP: " + cep);
+        sb.append("\n Cidade: " + cidade + ", Estado: " + estado + "\n");
         return sb.toString();
     }
 }

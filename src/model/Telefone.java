@@ -53,7 +53,7 @@ public class Telefone {
 
     @Override
     public String toString(){
-        return "(" + ddd + ") " + numeroTelefone;
+        return " (" + ddd + ") " + numeroTelefone + "\n";
     }
 
   

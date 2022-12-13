@@ -38,12 +38,8 @@ public class Contato {
         return telefones;
     }
 
-    public void addAll(List<Telefone> telefones){
+    public void addAllTelefones(List<Telefone> telefones){
         this.telefones.addAll(telefones);
-    }
-
-    public void add(Telefone telefone) {
-        this.telefones.add(telefone);
     }
     
     public String getEmail() {
@@ -58,8 +54,8 @@ public class Contato {
         return enderecos;
     }
 
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
+    public void addAllEnderecos(List<Endereco> enderecos) {
+        this.enderecos.addAll(enderecos);
     }
 
     public String getSobrenome() {
@@ -84,6 +80,7 @@ public class Contato {
 
     @Override
     public String toString(){
+
         if (!telefones.isEmpty() && !enderecos.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             sb.append("Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email+" \n");
@@ -105,6 +102,7 @@ public class Contato {
             sb.append("Endereco(s): "+enderecos);
             return sb.toString();
         }
+
 
         return "Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email;
     }

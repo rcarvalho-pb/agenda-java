@@ -2,6 +2,7 @@ package view;
 
 import model.*;
 import util.Constantes;
+import exception.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,13 +92,15 @@ public class AgendaView {
             contatos.forEach(contato ->{
                 System.out.println(contador+ ": "+contato);
                 contador.getAndIncrement();
+
             });
-            System.out.println("Qual contato? ");
+            System.out.println(" ");
+            System.out.println("Digite o indice do contato: ");
             System.out.print("> ");
-
-
             Integer opcao = Integer.parseInt(scan.nextLine()) - Constantes.INDEX_FATOR;
             return contatos.get(opcao);
+        } else {
+            System.out.println(contatos.get(0));
         }
         
         return contatos.get(0);
@@ -111,15 +114,6 @@ public class AgendaView {
         scan.nextLine();
         return contato.getEnderecos().get(opcao);
 
-    }
-
-    public String pegarUF() {
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Digite UF: ");
-        String uf = sc.nextLine().toLowerCase();
-
-        return uf;
     }
 
 
@@ -173,22 +167,73 @@ public class AgendaView {
     public void mostrarTodasInformacoesParaContato(Contato contato) {
 
         if(contato == null) {
-            System.err.println("Contato inexistente. ");
-            return;
+            throw new ContatoNaoEncontradoException();
         }
 
-        System.out.println(contato);
+        System.out.println(imprimirInformacoesContato(contato));
     }
 
     public void mostrarTodasInformacoesParaContato(long id, Contato contato) {
 
         if(contato == null) {
-            System.err.println("Contato inexistente. ");
-            return;
+            throw new ContatoNaoEncontradoException();
+        }        
+
+        System.out.println(id + " : " + imprimirInformacoesContato(contato));
+    }
+
+
+    public String imprimirInformacoesContato(Contato contato) {
+        if (!contato.getTelefones().isEmpty() && !contato.getEnderecos().isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("""
+                    Nome: %s
+                    Sobrenome: %s
+                    Email: %s
+                    """,
+                    contato.getNome(), contato.getSobrenome(), contato.getEmail()));
+
+            sb.append("Endereços: \n");            
+            contato.getEnderecos().forEach(endereco -> sb.append(endereco));
+
+            sb.append("Telefones: \n");
+            contato.getTelefones().forEach(telefone -> sb.append(telefone));
+
+            return sb.toString();
         }
 
-        System.out.println(id + " : " + contato);
+        if (contato.getTelefones().isEmpty() && !contato.getEnderecos().isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("""
+                    Nome: %s
+                    Sobrenome: %s
+                    Email: %s
+                    """,
+                    contato.getNome(), contato.getSobrenome(), contato.getEmail()));
+                    
+            sb.append("Endereços: \n");            
+            contato.getEnderecos().forEach(endereco -> sb.append(endereco));
+            return sb.toString();
+        }
+
+        if (!contato.getTelefones().isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("""
+                    Nome: %s
+                    Sobrenome: %s
+                    Email: %s
+                    """,
+                    contato.getNome(), contato.getSobrenome(), contato.getEmail()));
+
+            sb.append("Telefones: \n");
+            contato.getTelefones().forEach(telefone -> sb.append(telefone));
+            return sb.toString();
+        }
+
+        return "Nome: "+ contato.getNome() + ", Sobrenome: " + contato.getSobrenome() + ", Email: " + contato.getEmail();
     }
+
+
 
     public void mostrarTelefones(Contato contato) {
         mensagens.mensagemNomeDoContatoParaTelefone(contato.getNome());
