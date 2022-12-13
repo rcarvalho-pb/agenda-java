@@ -156,7 +156,7 @@ public class AgendaService {
 
         boolean continuarLoop;
 
-       
+
 
         do {
             System.out.println("Informe o número de telefone: ");
