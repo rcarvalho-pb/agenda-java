@@ -25,11 +25,11 @@ public class Mensagens{
     public void confirmacaoExcluirEndereco(){
         System.out.println("Deseja realmente excluir o endereco: [1] sim [2] não");
     }
-    public void enderecosApagados(long telefones){
-        System.out.println("Foram deletado(s) " +telefones+ " enderecos(s)!");
+    public void enderecosApagados(){
+        System.out.println("Endereco(s) removido(s) com sucesso");
     }
-    public void telefonesApagados(long telefones){
-        System.out.println("Foram deletado(s) " +telefones+ " telefone(s)!");
+    public void telefonesApagados(){
+        System.out.println("Telefone(s) removido(s) com sucesso!");
     }
 
     public void contatosRemovidos(){

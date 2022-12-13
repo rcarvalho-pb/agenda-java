@@ -242,12 +242,14 @@ public class AgendaService {
         String resposta = scan.nextLine();
         switch(resposta){
             case Constantes.RESP_SIM -> {
-                long quantidadeApagados = agenda
-                        .getContatos()
+                 agenda.getContatos()
                         .stream()
                         .filter(cont -> cont.equals(contatoSelecionado))
-                        .map(cont -> cont.getTelefones().remove(telefone)).count();
-                mensagens.telefonesApagados(quantidadeApagados);
+                        .findFirst()
+                        .orElseThrow(ContatoNaoEncontradoException::new)
+                        .getTelefones()
+                        .remove(telefone);
+                mensagens.telefonesApagados();
             }
             case Constantes.RESP_NAO -> mensagens.operacaoCancelada();
             default-> throw new EntradaInvalidaOuInsuficienteException("Entrada invalida. ");
@@ -266,14 +268,15 @@ public class AgendaService {
         String resposta = scan.nextLine();
         switch(resposta){
             case Constantes.RESP_SIM -> {
-                long quantidadeApagados = agenda
-                        .getContatos()
+                agenda.getContatos()
                         .stream()
                         .filter(cont -> cont.equals(contatoSelecionado))
-                        .map(cont -> cont.getEnderecos().remove(endereco))
-                        .count();
+                        .findFirst()
+                        .orElseThrow(ContatoNaoEncontradoException::new)
+                        .getEnderecos()
+                        .remove(endereco);
 
-                mensagens.enderecosApagados(quantidadeApagados);
+                mensagens.enderecosApagados();
             }
             case Constantes.RESP_NAO -> mensagens.operacaoCancelada();
             default-> throw new EntradaInvalidaOuInsuficienteException("Entrada invalida. ");
