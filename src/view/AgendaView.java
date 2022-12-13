@@ -186,26 +186,14 @@ public class AgendaView {
     public String imprimirInformacoesContato(Contato contato) {
         if (!contato.getTelefones().isEmpty() && !contato.getEnderecos().isEmpty()) {
             StringBuilder sb = new StringBuilder();
-
-            /*
-             * 
-             * sb.append(String.format(
-                "Nome: %s \n" +
-                "Sobrenome: %s \n" +
-                "Empresa: %s \n",
-                nome, sobreNome, empresa
-        ));
-        sb.append("Telefones: ");
-             */
-
             sb.append(String.format("""
                     Nome: %s
                     Sobrenome: %s
                     Email: %s
                     """,
                     contato.getNome(), contato.getSobrenome(), contato.getEmail()));
-            sb.append("Endereços: \n");
-            // sb.append(contato.getEnderecos() + "\n");
+
+            sb.append("Endereços: \n");            
             contato.getEnderecos().forEach(endereco -> sb.append(endereco));
 
             sb.append("Telefones: \n");
@@ -216,17 +204,29 @@ public class AgendaView {
 
         if (contato.getTelefones().isEmpty() && !contato.getEnderecos().isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Nome: "+ contato.getNome() + ", Sobrenome: " + contato.getSobrenome() + ", Email: " + contato.getEmail());
-            sb.append(" ");
-            sb.append(contato.getEnderecos());
+            sb.append(String.format("""
+                    Nome: %s
+                    Sobrenome: %s
+                    Email: %s
+                    """,
+                    contato.getNome(), contato.getSobrenome(), contato.getEmail()));
+                    
+            sb.append("Endereços: \n");            
+            contato.getEnderecos().forEach(endereco -> sb.append(endereco));
             return sb.toString();
         }
 
         if (!contato.getTelefones().isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Nome: "+ contato.getNome() + ", Sobrenome: " + contato.getSobrenome() + ", Email: " + contato.getEmail());
-            sb.append(" ");
-            sb.append(contato.getTelefones());
+            sb.append(String.format("""
+                    Nome: %s
+                    Sobrenome: %s
+                    Email: %s
+                    """,
+                    contato.getNome(), contato.getSobrenome(), contato.getEmail()));
+
+            sb.append("Telefones: \n");
+            contato.getTelefones().forEach(telefone -> sb.append(telefone));
             return sb.toString();
         }
 
