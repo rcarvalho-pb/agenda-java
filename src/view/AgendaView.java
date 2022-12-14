@@ -23,7 +23,7 @@ public class AgendaView {
         System.out.println("3 - Buscar Contato");
         System.out.println("4 - Remover um contato");
         System.out.println("5 - Remover todos os contatos");
-        System.out.println("6 - Informações Contatos * ");
+        System.out.println("6 - Informações Contatos -> ");
         System.out.println("7 - Exibir a lista de contatos com paginação");
         System.out.println("8 - Exibir a lista de telefones com paginação");
         System.out.println("9 -  Exibir a lista de endereços com paginação");
@@ -88,28 +88,24 @@ public class AgendaView {
 
     public Contato escolherContato(List<Contato> contatos) { //Para buscar um contato para editar
 
-        if (contatos.size() > Constantes.REGISTRO_UNICO) {
-            int contador = Constantes.INDEX_FATOR;
-            for (Contato contato: contatos) {
-                System.out.println(contador + ": "+contato);
-                contador++;
-            }
 
-            System.out.println(" ");
-            System.out.println("Digite o indice do contato: ");
-            System.out.print("> ");
-            int opcao = Integer.parseInt(scan.nextLine()) - Constantes.INDEX_FATOR;
-            return contatos.get(opcao);
-        }else{
-            System.out.println(contatos.get(Constantes.INDEX_ZERO));
+        int contador = Constantes.INDEX_FATOR;
+        for (Contato contato: contatos) {
+            System.out.println(contador + ": "+contato);
+            contador++;
         }
-        
-        return contatos.get(Constantes.INDEX_ZERO);
+
+        System.out.println(" ");
+        System.out.println("Digite o indice do contato: ");
+        System.out.print("> ");
+        int opcao = Integer.parseInt(scan.nextLine()) - Constantes.INDEX_FATOR;
+        return contatos.get(opcao);
+
     }
 
     public Endereco escolherEnderecoRemover(Contato contato) { //8
         for(int i = 0; i < contato.getEnderecos().size(); i++){
-            System.out.println("Id: " + (i+1) + "\n " + contato.getEnderecos().get(i));
+            System.out.println((i+1) + "\nEndereco: \n " + contato.getEnderecos().get(i));
         }
         System.out.println("Qual endereco a remover? ");
         System.out.print("> ");
@@ -197,7 +193,7 @@ public class AgendaView {
         
 
             for (int i = 0; i < contato.getTelefones().size(); i++) {
-                System.out.println("ID: " + (i + Constantes.INDEX_FATOR) + " Telefone: " + contato.getTelefones().get(i));
+                System.out.println((i + Constantes.INDEX_FATOR) + ": Telefone: " + contato.getTelefones().get(i));
             }
 
             System.out.println("Qual telefone a remover? ");
@@ -317,7 +313,7 @@ public class AgendaView {
     public void mostrarEnderecos(Contato contato) {
         mensagens.mensagemNomeDoContatoParaEndereco(contato.getNome());
         for (int i = 0; i < contato.getEnderecos().size(); i++) {
-            System.out.println("Telefone "+(i+1)+": "+contato.getEnderecos().get(i));
+            System.out.println("Endereco "+(i+1)+": \n"+contato.getEnderecos().get(i));
         }
     }
 

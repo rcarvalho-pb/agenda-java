@@ -52,6 +52,7 @@ public class AgendaService {
 
             if(retornarMenu){
                 aguardarRepeticaoMenu();
+                ordenarContatos();
             }
         }
     }
@@ -88,6 +89,7 @@ public class AgendaService {
             if(continueMenu){
                 aguardarRepeticaoMenu();
             }
+            ordenarContatos();
         }
         
 
@@ -111,7 +113,14 @@ public class AgendaService {
         if (agenda.getContatos().isEmpty()){
             throw new AgendaVaziaException();
         }
-        agenda.getContatos().forEach(System.out::println);
+        for(int i = 0; i < agenda.getContatos().size(); i++){
+            System.out.println((i+1) + ": "+ agenda.getContatos().get(i));
+        }
+
+    }
+
+    private void ordenarContatos(){
+        agenda.getContatos().sort(Comparator.comparing(Contato::getNome));
     }
 
     public List<Contato>buscarContato(String contato) { // 3
