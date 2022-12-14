@@ -37,9 +37,11 @@ public enum TipoEndereco {
         switch (id) {
             case Constantes.TIPO_RESIDENCIAL -> {
                 return RESIDENCIAL;
-            } case Constantes.TIPO_COMERCIAL ->   {
+            }
+            case Constantes.TIPO_COMERCIAL -> {
                 return COMERCIAL;
-            } case Constantes.TIPO_CAIXAPOSTAL -> {
+            }
+            case Constantes.TIPO_CAIXAPOSTAL -> {
                 return CAIXA_POSTAL;
             }
             default -> throw new EntradaInvalidaOuInsuficienteException("Entrada inválida!");

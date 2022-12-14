@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Contato {
-    
+
     private String nome;
     private String sobrenome;
     private List<Telefone> telefones;
@@ -38,10 +38,10 @@ public class Contato {
         return telefones;
     }
 
-    public void addAllTelefones(List<Telefone> telefones){
+    public void addAllTelefones(List<Telefone> telefones) {
         this.telefones.addAll(telefones);
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -79,9 +79,9 @@ public class Contato {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
 
-        return "Nome: "+ nome + ", Sobrenome: " + sobrenome + ", Email: " + email;
+        return "Nome: " + nome + ", Sobrenome: " + sobrenome + ", Email: " + email;
     }
 
 

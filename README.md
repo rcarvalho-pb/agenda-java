@@ -3,6 +3,7 @@
 ## Objetivos do projeto
 
 ...
+
 ## Como contribuir
 
 1. Realize um **Fork** do projeto

@@ -19,10 +19,10 @@ public enum Estado {
     RN(84, "rn"),
     PB(83, "pb"),
     PE(81, "pe"),
-    AL( 82, "al"),
+    AL(82, "al"),
     SE(79, "se"),
     BA(71, "ba"),
-    MG(31,"mg"),
+    MG(31, "mg"),
     ES(27, "es"),
     RJ(21, "rj"),
     SP(11, "sp"),
@@ -37,7 +37,7 @@ public enum Estado {
     private Integer ddd;
     private String uf;
 
-    Estado(Integer ddd, String uf){
+    Estado(Integer ddd, String uf) {
         this.ddd = ddd;
         this.uf = uf;
     }
@@ -58,34 +58,34 @@ public enum Estado {
         this.uf = uf;
     }
 
-    public static Estado pegarEstadoDoDDD(String uf){
+    public static Estado pegarEstadoDoDDD(String uf) {
         Estado estado = null;
-        if(!uf.isEmpty()) {
-            if(RO.uf.equals(uf)){
+        if (!uf.isEmpty()) {
+            if (RO.uf.equals(uf)) {
                 estado = RO;
-            } else if(AC.uf.equals(uf)){
+            } else if (AC.uf.equals(uf)) {
                 estado = AC;
-            } else if(AM.uf.equals(uf)){
+            } else if (AM.uf.equals(uf)) {
                 estado = AM;
-            } else if(RR.uf.equals(uf)){
+            } else if (RR.uf.equals(uf)) {
                 estado = RR;
-            } else if(PA.uf.equals(uf)){
+            } else if (PA.uf.equals(uf)) {
                 estado = PA;
-            } else if(AP.uf.equals(uf)){
+            } else if (AP.uf.equals(uf)) {
                 estado = AP;
-            } else if(TO.uf.equals(uf)){
+            } else if (TO.uf.equals(uf)) {
                 estado = TO;
-            } else if(MA.uf.equals(uf)){
+            } else if (MA.uf.equals(uf)) {
                 estado = MA;
-            } else if(PI.uf.equals(uf)){
+            } else if (PI.uf.equals(uf)) {
                 estado = PI;
-            } else if(CE.uf.equals(uf)){
+            } else if (CE.uf.equals(uf)) {
                 estado = CE;
-            } else if(RN.uf.equals(uf)){
+            } else if (RN.uf.equals(uf)) {
                 estado = RN;
-            } else if(PE.uf.equals(uf)){
+            } else if (PE.uf.equals(uf)) {
                 estado = PE;
-            }else if(AL.uf.equals(uf)) {
+            } else if (AL.uf.equals(uf)) {
                 estado = AL;
             }
 //           else if(PB.uf.equals(uf)){
@@ -97,8 +97,6 @@ public enum Estado {
 //            }else if(PB.uf.equals(uf)){
 //                estado = PB;
 //            }
-
-
 
 
         }

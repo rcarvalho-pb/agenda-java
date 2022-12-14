@@ -1,9 +1,14 @@
 {
   "nome": "joao",
   "sobrenome": "da silva",
-  "endereço" : {
+  "endereço": {
     "rua": "",
     "cep": ""
   },
-  "telefones" : [1, 2, 3, 9]
+  "telefones": [
+    1,
+    2,
+    3,
+    9
+  ]
 }

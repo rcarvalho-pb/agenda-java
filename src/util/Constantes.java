@@ -1,6 +1,6 @@
 package util;
 
-public class Constantes{
+public class Constantes {
 
     /*
     Constantes referentes ao menu Principal
@@ -15,7 +15,7 @@ public class Constantes{
     public static final String EXIBIR_LISTA_TELEFONES_COM_PAGINACAO = "8";
     public static final String EXIBIR_LISTA_ENDERECOS_COM_PAGINACAO = "9";
     public static final String EXPORTAR_TODOS_CONTACTOS_PARA_TXT = "10";
-    public static final String IMPORTAR_TODOS_CONTACTOS_PARA_TXT = "11"; 
+    public static final String IMPORTAR_TODOS_CONTACTOS_PARA_TXT = "11";
     public static final String SAIR_PROGRAMA = "12";
 
     // Menu Informações Contato

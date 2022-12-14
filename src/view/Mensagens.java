@@ -1,84 +1,88 @@
 package view;
 
 
-public class Mensagens{
+public class Mensagens {
 
-    public String contatoExiste(){
+    public String contatoExiste() {
         return "Contato existe.";
     }
 
-    public void mensagemTelefoneExiste(){
+    public void mensagemTelefoneExiste() {
         System.out.println("Telefone Existe");
     }
 
-    public void mensagemEnderecoExiste(){
+    public void mensagemEnderecoExiste() {
         System.out.println("Endereco Existe");
     }
 
-    public void mensagemNomeDoContatoParaTelefone(String contato){
-        System.out.println("Telefone(s) do(a) "+contato+":");
-    }
-    public void mensagemNomeDoContatoParaEndereco(String contato){
-        System.out.println("Endereco(s) do(a) "+contato+":");
+    public void mensagemNomeDoContatoParaTelefone(String contato) {
+        System.out.println("Telefone(s) do(a) " + contato + ":");
     }
 
+    public void mensagemNomeDoContatoParaEndereco(String contato) {
+        System.out.println("Endereco(s) do(a) " + contato + ":");
+    }
 
 
-    public void contatoRemovido(){
+    public void contatoRemovido() {
         System.out.println("Contato removido com sucesso! ");
     }
 
-    public void confirmacaoExcluirContato(){
+    public void confirmacaoExcluirContato() {
         System.out.println("Deseja realmente excluir o contato: [1] sim [2] não");
     }
 
-    public void confirmacaoExcluirContatos(){
+    public void confirmacaoExcluirContatos() {
         System.out.println("Deseja realmente excluir todos os contatos: [1] sim [2] não");
     }
 
-    public void confirmacaoExcluirTelefone(){
+    public void confirmacaoExcluirTelefone() {
         System.out.println("Deseja realmente excluir o telefone: [1] sim [2] não");
         System.out.print("> ");
     }
 
-    public void confirmacaoExcluirEndereco(){
+    public void confirmacaoExcluirEndereco() {
         System.out.println("Deseja realmente excluir o endereco: [1] sim [2] não");
     }
-    public void enderecosApagados(){
+
+    public void enderecosApagados() {
         System.out.println("Endereco(s) removido(s) com sucesso");
     }
-    public void telefonesApagados(){
+
+    public void telefonesApagados() {
         System.out.println("Telefone(s) removido(s) com sucesso!");
     }
 
-    public void contatosRemovidos(){
+    public void contatosRemovidos() {
         System.out.println("Todos os contatos foram removidos!");
     }
-    public void operacaoCancelada(){
+
+    public void operacaoCancelada() {
         System.out.println("Operacao cancelada!");
     }
 
-    public void mensagemContatoCriado(){
+    public void mensagemContatoCriado() {
         System.out.println("Contato criado com sucesso!");
     }
 
-    public void mensagemTelefoneAdicionadoSucesso(){
+    public void mensagemTelefoneAdicionadoSucesso() {
         System.out.println("Telefone(s) adicionado(s) com sucesso!");
     }
 
-    public void mensagemEnderecoAdicionadoSucesso(){
+    public void mensagemEnderecoAdicionadoSucesso() {
         System.out.println("Endereco(s) adicionado(s) com sucesso!");
     }
 
-    public String nomeContato(){
+    public String nomeContato() {
         return "Nome: ";
     }
-    public String sobrrenomeContato(){
+
+    public String sobrrenomeContato() {
         return "Sobrenome: ";
     }
 
-    public String emailContato(){
-        return  "email: ";
+    public String emailContato() {
+        return "email: ";
     }
 
 

@@ -9,11 +9,11 @@ public interface Repository<ENTITY, ID> {
         return null;
     }
 
-    default Optional<ENTITY> encontrarPorId(ID id){
+    default Optional<ENTITY> encontrarPorId(ID id) {
         return Optional.empty();
     }
 
-    default ENTITY salvar(ENTITY entity){
+    default ENTITY salvar(ENTITY entity) {
         return entity;
     }
 

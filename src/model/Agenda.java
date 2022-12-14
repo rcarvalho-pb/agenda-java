@@ -13,7 +13,7 @@ public class Agenda {
         contatos = new ArrayList<>();
     }
 
-    public List<Contato> getContatos(){
+    public List<Contato> getContatos() {
         return contatos;
     }
 

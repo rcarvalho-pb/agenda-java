@@ -11,7 +11,8 @@ public class Endereco {
 
     private TipoEndereco tipoEndereco;
 
-    public Endereco(){}
+    public Endereco() {
+    }
 
     public Endereco(String logradouro, String cep, String numero, String cidade, String estado, TipoEndereco tipoEndereco) {
         this.logradouro = logradouro;
@@ -63,9 +64,9 @@ public class Endereco {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(" Tipo de Endereço: " +tipoEndereco.getNome());
+        sb.append(" Tipo de Endereço: " + tipoEndereco.getNome());
         sb.append("\n Logradouro: " + logradouro + ", N: " + numero + ", CEP: " + cep);
         sb.append("\n Cidade: " + cidade + ", Estado: " + estado + "\n");
         return sb.toString();

@@ -1,12 +1,9 @@
 package model;
 
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class Telefone {
-  
+
     private String ddd;
     private String numeroTelefone;
 
@@ -28,7 +25,7 @@ public class Telefone {
         this.tipoTelefone = tipoTelefone;
     }
 
-    public String getDDD(){
+    public String getDDD() {
         return ddd;
     }
 
@@ -40,7 +37,7 @@ public class Telefone {
         return numeroTelefone;
     }
 
-    public void setNumeroTelefone(String numeroTelefone){
+    public void setNumeroTelefone(String numeroTelefone) {
         this.numeroTelefone = numeroTelefone;
     }
 
@@ -57,10 +54,9 @@ public class Telefone {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return " (" + ddd + ") " + numeroTelefone + "\n";
     }
 
-  
 
 }

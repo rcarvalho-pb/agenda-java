@@ -1,6 +1,6 @@
 package exception;
 
-public class TelefoneJaRegistradoException extends RuntimeException{
+public class TelefoneJaRegistradoException extends RuntimeException {
 
 
     public TelefoneJaRegistradoException() {
