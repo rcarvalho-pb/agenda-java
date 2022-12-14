@@ -1,11 +1,16 @@
 package model;
 
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Telefone {
   
     private String ddd;
     private String numeroTelefone;
+
+    private TipoTelefone tipoTelefone;
 
     public Telefone() {
     }
@@ -16,10 +21,11 @@ public class Telefone {
     // }
 
     // parsing phone numbers
-    public Telefone(String telefoneCompleto) {
-        String[] linha = telefoneCompleto.split(" ");
-        this.ddd = linha[0];
-        this.numeroTelefone = linha[1];
+
+    public Telefone(String ddd, String numeroTelefone, TipoTelefone tipoTelefone) {
+        this.ddd = ddd;
+        this.numeroTelefone = numeroTelefone;
+        this.tipoTelefone = tipoTelefone;
     }
 
     public String getDDD(){
@@ -52,7 +58,7 @@ public class Telefone {
 
     @Override
     public String toString(){
-        return "(" + ddd + ") " + numeroTelefone;
+        return " (" + ddd + ") " + numeroTelefone + "\n";
     }
 
   

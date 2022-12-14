@@ -1,7 +1,6 @@
 package service;
 
-import exception.ContatoNaoEncontradoException;
-import exception.EntradaInvalidaOuInsuficienteException;
+import exception.*;
 import model.*;
 import model.enums.Estado;
 import repository.ContatoRepository;
@@ -9,18 +8,18 @@ import util.Pageable;
 import view.AgendaView;
 import view.Mensagens;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 import util.Constantes;
-import exception.ContatoJaRegistradoException;
 
 public class AgendaService {
 
     private ContatoRepository contatoRepository;
     Mensagens mensagens = new Mensagens();
+
+    Scanner scan = new Scanner(System.in);
+
     int contador = 0;
     AgendaView view;
     Agenda agenda;
@@ -29,61 +28,31 @@ public class AgendaService {
         this.view = new AgendaView();
         this.agenda = new Agenda();
         this.contatoRepository = new ContatoRepository();
+        this.scan = new Scanner(System.in);
     }
 
     public void menu() {
         boolean continueMenu = true;
-
-
+        boolean retornarMenu = true;
         while (continueMenu) {
             String option = (view.opcaoMenu());
-
             try {
                 switch (option) {
-                    //1 ---- pede somente nome -- tem que adicionar sobrenome
                     case Constantes.ADICIONAR_CONTATO -> adicionarContato(); // 1
-                    //2 falta cabeçalho para facilitar visualizacao - padronizar todos os nomes com a primeira maiuscula?
                     case Constantes.LISTAR_CONTATO -> listarContatos(); // 2
-                    //3 ---- nao encontra com partes do nome -- o maior problema é se o nome é composto, como Ana Luiza, se eu digito só ana, não retona.
-                    //3 ---- Caso não encontre, dar opcao de digitar nomamente, acesar menu ou finalizar?
-                    //3 ---- Só retorna o nome -- qual a finalidade? Acho que pode ser interessante retornar todas as infos do contato? Mas aí se confunde com o item 10.
-                    case Constantes.BUSCAR_CONTATO -> imprimirBuscarContato(); // 3 // já criado
-                    //4 ---- tudo ótimo -- talvez inserir uma confirmação: Esta ação não poderá ser desfeita. Deseja excluir o contato da agenda?
+                    case Constantes.BUSCAR_CONTATO -> imprimirBuscarContato(); // 3
                     case Constantes.REMOVER_CONTATO -> removerContato(); // 4
-                    //5 ---- tudo ótimo -- talvez inserir uma confirmação: Esta ação não poderá ser desfeita. Deseja excluir TODOS os contatos da agenda?
                     case Constantes.REMOVER_TODOS_CONTATOS -> removerTodosContatos(); // 5
-                    //6 ---- acho que podemos usar sempre números em toda a aplicacao.
-                    //6 ---- talvez listar os contatos para o usuário selecionar pelo índice para qual contato quer inserir
-                    //6 ---- no final, quando pergunta se quer adicionar mais um telefone, não aceita "S" e "N", só "s" e "n" -- ou tratar, ou pedir números
-                    case Constantes.ADICIONAR_TELEFONE_PARA_CONTATO -> adicionarTelefoneParaContato(); // 6
-                    //7 ----
-                    case Constantes.ADICIONAR_ENDERECO_PARA_CONTATO -> adicionarEnderecoParaContato(); // 7
-                    //8 ---- perguntar se tem certeza
-                    case Constantes.REMOVER_TELEFONE_PARA_CONTATO -> removerTelefoneParaContato();// 8
-                    //9 ---- não funciona - pergunta qual endereço, mas dá erro - colocar uma lista dos endereços e pedir para digitar o número.
-                    case Constantes.REMOVER_ENDERECO_PARA_CONTATO -> removerEnderecoParaContato();// 9
-                    //10 ---- lista ok, mas precisa arrumar layout
-                    case Constantes.MOSTRAR_TODAS_INFORMACOES_CONTATO -> mostrarTodasInformacoesParaContato(); // 10
-                    //11 ---- lista corretamente se eu inserir todos os telefones de 1 vez.
-                    //11 ---- caso eu adicione os telefones para o contato Ana, liste e depois decida inserir mais telefones
-                    //11 ---- os primeiros são ignorados e só permanecem os novos
-                    case Constantes.LISTAR_TODOS_TELEFONES_PARA_UM_CONTATO -> listarTodosTelefonesParaContato(); // 11
-                    //12 ---- só deixa incluir 1 endereço, se incluo outro, spobrescreve.
-                    //12 ---- fazer como telefones e verificar se quer incluir outro enereço
-                    case Constantes.LISTAR_TODOS_ENDERECOS_PARA_UM_CONTATO -> listarTodosEnderecosParaContato(); // 12
-                    case Constantes.EXIBIR_TODAS_INFORMACOES_TELEFONE_CONTATO_NA_AGENDA ->
-                            exibirTodasInformacoesTelefone(); // 13
-                    case Constantes.EXIBIR_TODAS_INFORMACOES_ENDERECO_CONTATO_NA_AGENDA ->
-                            exibirTodasInformacoesEndereco(); // 14
-
-                    // XXXXX EXTRAS XXXXX
-                    case Constantes.EXIBIR_LISTA_CONTATOS_COM_PAGINACAO -> exibirListaContatosComPaginacao(); // 15
-                    case Constantes.EXIBIR_LISTA_TELEFONES_COM_PAGINACAO -> exibirListaTelefonesComPaginacao(); // 16
-                    case Constantes.EXIBIR_LISTA_ENDERECOS_COM_PAGINACAO -> exibirListaEnderecosComPaginacao(); // 17
-                    case Constantes.EXPORTAR_TODOS_CONTACTOS_PARA_TXT -> exportarTodosContatosParaTXT(); // 18
-                    case Constantes.IMPORTAR_TODOS_CONTACTOS_PARA_TXT -> importarTodosContatosParaTXT(); // 19
-                    case "21" -> pegarDdd(); // 19
-                    case Constantes.SAIR_PROGRAMA -> continueMenu = sairPrograma();
+                    case Constantes.INFORMACOES_CONTATO -> menuContato(); // 6
+                    case Constantes.EXIBIR_LISTA_CONTATOS_COM_PAGINACAO -> exibirListaContatosComPaginacao(); // 7 - AINDA FALTA
+                    case Constantes.EXIBIR_LISTA_TELEFONES_COM_PAGINACAO -> exibirListaTelefonesComPaginacao(); // 8 AINDA FALTA
+                    case Constantes.EXIBIR_LISTA_ENDERECOS_COM_PAGINACAO -> exibirListaEnderecosComPaginacao(); // 9 AINDA FALTA
+                    case Constantes.EXPORTAR_TODOS_CONTACTOS_PARA_TXT -> exportarTodosContatosParaTXT(); // 10 AINDA FALTA
+                    case Constantes.IMPORTAR_TODOS_CONTACTOS_PARA_TXT -> importarTodosContatosParaTXT(); // 11 AINDA FALTA
+                    case Constantes.SAIR_PROGRAMA -> {
+                        retornarMenu = false;
+                        continueMenu = sairPrograma();
+                    }
                     default -> throw new EntradaInvalidaOuInsuficienteException("Comando invalido!");
                 }
             } catch (ContatoNaoEncontradoException | ContatoJaRegistradoException e) {
@@ -92,8 +61,49 @@ public class AgendaService {
                 System.out.println(ignored.getMessage());
             }
 
-            aguardarRepeticaoMenu();
+            if(retornarMenu){
+                aguardarRepeticaoMenu();
+                ordenarContatos();
+            }
         }
+    }
+
+    public void menuContato() {
+
+        boolean continueMenu = true;
+        while (continueMenu) {
+            String option = (view.opcaoMenuContato());
+            try {
+                switch (option) {
+                    case Constantes.ADICIONAR_TELEFONE_PARA_CONTATO -> adicionarTelefoneParaContato(); // 1
+                    case Constantes.ADICIONAR_ENDERECO_PARA_CONTATO -> adicionarEnderecoParaContato(); // 2
+                    case Constantes.REMOVER_TELEFONE_PARA_CONTATO -> removerTelefoneParaContato();// 3
+                    case Constantes.REMOVER_ENDERECO_PARA_CONTATO -> removerEnderecoParaContato();// 4
+                    case Constantes.MOSTRAR_TODAS_INFORMACOES_CONTATO -> mostrarTodasInformacoesParaContato(); // 5
+                    case Constantes.LISTAR_TODOS_TELEFONES_PARA_UM_CONTATO -> listarTodosTelefonesParaContato(); // 6
+                    case Constantes.LISTAR_TODOS_ENDERECOS_PARA_UM_CONTATO -> listarTodosEnderecosParaContato(); // 7
+                    case Constantes.EXIBIR_TODAS_INFORMACOES_TELEFONE_CONTATO_NA_AGENDA ->
+                            exibirTodasInformacoesTelefone(); // 8
+                    case Constantes.EXIBIR_TODAS_INFORMACOES_ENDERECO_CONTATO_NA_AGENDA ->
+                            exibirTodasInformacoesEndereco(); // 9
+                    case Constantes.RETORNAR_MENU_PRINCIPAL -> {
+                        continueMenu = false;
+                        break;
+                    }
+                    default -> throw new EntradaInvalidaOuInsuficienteException("Comando invalido!");
+                }
+            } catch (ContatoNaoEncontradoException | ContatoJaRegistradoException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception ignored) {
+                System.out.println(ignored.getMessage());
+            }
+            if(continueMenu){
+                aguardarRepeticaoMenu();
+            }
+            ordenarContatos();
+        }
+
+
     }
 
     public void adicionarContato() { // 1
@@ -106,10 +116,22 @@ public class AgendaService {
             throw new ContatoJaRegistradoException(novoContato.getNome());
         }
         agenda.getContatos().add(novoContato);
+        mensagens.mensagemContatoCriado();
     }
 
     public void listarContatos() { // 2
-        agenda.getContatos().forEach(System.out::println);
+
+        if (agenda.getContatos().isEmpty()){
+            throw new AgendaVaziaException();
+        }
+        for(int i = 0; i < agenda.getContatos().size(); i++){
+            System.out.println((i+1) + ": "+ agenda.getContatos().get(i));
+        }
+
+    }
+
+    private void ordenarContatos(){
+        agenda.getContatos().sort(Comparator.comparing(Contato::getNome));
     }
 
     public List<Contato> buscarContato(String contato) { // 3
@@ -121,7 +143,7 @@ public class AgendaService {
                 .toList();
 
         if (contatosEncontrados.size() == 0) {
-            System.err.println("Contato não encontrado. ");
+            throw new ContatoNaoEncontradoException();
         }
 
         Pageable<Contato> paginacaoDeContatos = new Pageable<>(contatosEncontrados, 10);
@@ -129,46 +151,77 @@ public class AgendaService {
     }
 
     public void imprimirBuscarContato() {
+
         String contato = view.buscarContato("------- BUSCAR CONTATO -------");
-        buscarContato(contato).forEach(cont -> {
-            System.out.println((contador + 1) + ": " + cont);
-            contador++;
-        });
-        contador = 0;
+        List<Contato> contatosEncontrados = buscarContato(contato);
+        contatosEncontrados.forEach(System.out::println);
+
     }
 
     public void removerContato() { // 4
         String contatoARemover = view.buscarContato("------- REMOVER CONTATO -------");
         List<Contato> contatosEncontrados = buscarContato(contatoARemover);
         Contato contatoEscolhido = view.escolherContato(contatosEncontrados);
-        agenda.getContatos().remove(contatoEscolhido);
+        mensagens.confirmacaoExcluirContato();
+        var resposta = scan.nextLine();
+        switch(resposta){
+            case Constantes.RESP_SIM -> {
+                agenda.getContatos().remove(contatoEscolhido);
+                mensagens.contatoRemovido();
+            }
+            case Constantes.RESP_NAO -> mensagens.operacaoCancelada();
+            default-> throw new EntradaInvalidaOuInsuficienteException("Entrada invalida. ");
+        }
 
     }
 
     public void removerTodosContatos() { // 5
-        agenda.getContatos().clear();
+        mensagens.confirmacaoExcluirContatos();
+        var resposta = scan.nextLine();
+        switch(resposta){
+            case Constantes.RESP_SIM -> {
+                agenda.getContatos().clear();
+                mensagens.contatosRemovidos();
+            }
+            case Constantes.RESP_NAO -> mensagens.operacaoCancelada();
+            default-> throw new EntradaInvalidaOuInsuficienteException("Entrada invalida. ");
+        }
+
+    }
+
+    public List<Telefone> pegarNovoTelefone(List<Telefone> telefonesAtuais) {
+        List<Telefone> telefones = new ArrayList<>();
+        boolean continuarLoop;
+
+        do {
+            Telefone numeroTelefone = view.pegarTelefone();
+            var telefoneExisteAtuais = telefonesAtuais.stream().anyMatch(t-> t.equals(numeroTelefone));
+            var telefoneExiste = telefones.stream().anyMatch(t -> t.equals(numeroTelefone));
+            if (telefoneExiste || telefoneExisteAtuais) {
+                mensagens.mensagemTelefoneExiste();
+            }else {
+                telefones.add(numeroTelefone);
+            }
+            continuarLoop = view.perguntarAoUsuario("Deseja adicionar outro telefone?");
+
+        } while (continuarLoop);
+
+
+
+        return telefones;
     }
 
 
     public void adicionarTelefoneParaContato() { // 6
-        AtomicLong i = new AtomicLong(Constantes.INDEX_FATOR);
 
         String contato = view.buscarContato("------- ADD TELEFONE -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
 
-        if (contatosEncontrados.size() > 1) {
-            System.out.println();
-            contatosEncontrados.forEach(c -> view.mostrarTodasInformacoesParaContato(i.getAndIncrement(), c));
-            System.out.println();
-        }
-
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        List<Telefone> telefones = view.pegarNovoTelefone();
+        List<Telefone> telefones = pegarNovoTelefone(contatoSelecionado.getTelefones());
+        contatoSelecionado.addAllTelefones(telefones);
 
-        agenda.getContatos().forEach(cont -> {
-            if (cont.equals(contatoSelecionado))
-                cont.addAll(telefones);
-        });
+        mensagens.mensagemTelefoneAdicionadoSucesso();
 
     }
 
@@ -176,12 +229,35 @@ public class AgendaService {
         String contato = view.buscarContato("------- ADD ENDEREÇO -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        List<Endereco> enderecos = view.pegarEnderecos();
+        List<Endereco> enderecos = pegarNovoEndereco(contatoSelecionado.getEnderecos());
         agenda.getContatos().forEach(cont -> {
             if (cont.equals(contatoSelecionado)) {
-                cont.setEnderecos(enderecos);
+                cont.addAllEnderecos(enderecos);
             }
         });
+        mensagens.mensagemEnderecoAdicionadoSucesso();
+    }
+
+    public List<Endereco> pegarNovoEndereco(List<Endereco> enderecosAtuais){
+        List<Endereco> enderecos = new ArrayList<>();
+        boolean continuarLoop;
+
+        do {
+            Endereco endereco = view.pegarEndereco();
+            var enderecoExisteAtuais = enderecosAtuais.stream().anyMatch(t-> t.equals(endereco));
+            var enderecoExiste = enderecos.stream().anyMatch(t -> t.equals(endereco));
+            if (enderecoExiste || enderecoExisteAtuais) {
+                mensagens.mensagemEnderecoExiste();
+            }else {
+                enderecos.add(endereco);
+            }
+            continuarLoop = view.perguntarAoUsuario("Deseja adicionar outro telefone?");
+
+        } while (continuarLoop);
+
+
+
+        return enderecos;
     }
 
     public void removerTelefoneParaContato() { // 8
@@ -190,14 +266,23 @@ public class AgendaService {
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         Telefone telefone = view.escolherTelefoneRemover(contatoSelecionado);
 
-         agenda
-            .getContatos()
-            .stream()
-            .filter(cont -> cont.equals(contatoSelecionado))
-            .findFirst()
-            .orElseThrow(ContatoNaoEncontradoException::new)
-            .getTelefones()
-            .remove(telefone);
+        mensagens.confirmacaoExcluirTelefone();
+        String resposta = scan.nextLine();
+        switch(resposta){
+            case Constantes.RESP_SIM -> {
+                 agenda.getContatos()
+                        .stream()
+                        .filter(cont -> cont.equals(contatoSelecionado))
+                        .findFirst()
+                        .orElseThrow(ContatoNaoEncontradoException::new)
+                        .getTelefones()
+                        .remove(telefone);
+                mensagens.telefonesApagados();
+            }
+            case Constantes.RESP_NAO -> mensagens.operacaoCancelada();
+            default-> throw new EntradaInvalidaOuInsuficienteException("Entrada invalida. ");
+        }
+
 
         System.out.println("Telefone removido com sucesso!");
     }
@@ -207,14 +292,25 @@ public class AgendaService {
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         Endereco endereco = view.escolherEnderecoRemover(contatoSelecionado);
-        long quantidadeApagados = agenda
-                .getContatos()
-                .stream()
-                .filter(cont -> cont.equals(contatoSelecionado))
-                .map(cont -> cont.getEnderecos().remove(endereco))
-                .count();
 
-        System.out.println("Foi/Foram apagado(s) " + quantidadeApagados + " endereço(s).");
+        mensagens.confirmacaoExcluirEndereco();
+        String resposta = scan.nextLine();
+        switch(resposta){
+            case Constantes.RESP_SIM -> {
+                agenda.getContatos()
+                        .stream()
+                        .filter(cont -> cont.equals(contatoSelecionado))
+                        .findFirst()
+                        .orElseThrow(ContatoNaoEncontradoException::new)
+                        .getEnderecos()
+                        .remove(endereco);
+
+                mensagens.enderecosApagados();
+            }
+            case Constantes.RESP_NAO -> mensagens.operacaoCancelada();
+            default-> throw new EntradaInvalidaOuInsuficienteException("Entrada invalida. ");
+        }
+
 
     }
 
@@ -240,22 +336,6 @@ public class AgendaService {
         view.mostrarEnderecos(contatoSelecionado);
     }
 
-    public void pegarDdd() {
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Digite UF: ");
-        String uf = sc.nextLine();
-
-        Estado estadoOpcao = Estado.pegarDdd(uf);
-
-        switch (estadoOpcao) {
-            case RO -> System.out.println(Estado.RO.getDdd());
-            case AC -> System.out.println(Estado.AC.getDdd());
-            case AM -> System.out.println(Estado.AM.getDdd());
-            default -> System.out.println("Digite um uf válido");
-        }
-
-    }
 
     public Contato buscarContatoPorTelefone(String numeroTelefone)
             throws ContatoNaoEncontradoException { // 13
@@ -269,11 +349,14 @@ public class AgendaService {
                                 .contains(numeroTelefone)))
                 .toList();
 
-        if (contatosEncontrados.size() == 0)
+        if (contatosEncontrados.size() == Constantes.LISTA_VAZIA)
             throw new ContatoNaoEncontradoException(numeroTelefone);
 
         return view.escolherContato(contatosEncontrados);
+
+
     }
+
 
     public void exibirTodasInformacoesTelefone() {
         String numeroTelefone = view.buscarContatoPorTelefone();
@@ -286,15 +369,15 @@ public class AgendaService {
         if (enderecoOpcao == null)
             throw new EntradaInvalidaOuInsuficienteException("Entrada inválida para o endereço!");
 
-        String[] apoio = enderecoOpcao.split(",");
+        String[] acessoEndereco = enderecoOpcao.split(",");
         List<Contato> contatosEncontrados;
 
-        switch (apoio[0]) {
-            case "1" -> {
-                contatosEncontrados = agenda.getContatos().stream().filter(cont -> cont.getEnderecos().stream().anyMatch(lograd -> lograd.getLogradouro().contains(apoio[1]))).toList();
+        switch (acessoEndereco[Constantes.OPCAO_ENDERECO]) {
+            case Constantes.LOGRADOURO -> {
+                contatosEncontrados = agenda.getContatos().stream().filter(cont -> cont.getEnderecos().stream().anyMatch(lograd -> lograd.getLogradouro().contains(acessoEndereco[1]))).toList();
             }
-            case "2" -> {
-                contatosEncontrados = agenda.getContatos().stream().filter(cont -> cont.getEnderecos().stream().anyMatch(cep -> cep.getCep().contains(apoio[1]))).toList();
+            case Constantes.CEP -> {
+                contatosEncontrados = agenda.getContatos().stream().filter(cont -> cont.getEnderecos().stream().anyMatch(cep -> cep.getCep().contains(acessoEndereco[1]))).toList();
             }
             default -> {
                 contatosEncontrados = new ArrayList<>();
@@ -302,7 +385,7 @@ public class AgendaService {
             }
         }
 
-        if (contatosEncontrados.size() == 0)
+        if (contatosEncontrados.size() == Constantes.LISTA_VAZIA)
             throw new ContatoNaoEncontradoException();
 
         return view.escolherContato(contatosEncontrados);
@@ -339,6 +422,7 @@ public class AgendaService {
     public boolean sairPrograma() { // 20
         return view.sairPrograma();
     }
+
 
     public Boolean existeContato() {
         return true;
