@@ -5,6 +5,7 @@ import model.Contato;
 import model.Endereco;
 import model.Telefone;
 import model.TipoEndereco;
+import model.enums.TipoTelefone;
 import util.Constantes;
 
 import java.util.ArrayList;
