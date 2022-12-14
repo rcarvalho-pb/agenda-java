@@ -181,14 +181,13 @@ public class AgendaService {
         boolean continuarLoop;
 
         do {
-            String numeroTelefone = view.pegarTelefone();
-            Telefone telefone = new Telefone(numeroTelefone);
-            var telefoneExisteAtuais = telefonesAtuais.stream().anyMatch(t-> t.equals(telefone));
-            var telefoneExiste = telefones.stream().anyMatch(t -> t.equals(telefone));
+            Telefone numeroTelefone = view.pegarTelefone();
+            var telefoneExisteAtuais = telefonesAtuais.stream().anyMatch(t-> t.equals(numeroTelefone));
+            var telefoneExiste = telefones.stream().anyMatch(t -> t.equals(numeroTelefone));
             if (telefoneExiste || telefoneExisteAtuais) {
                 mensagens.mensagemTelefoneExiste();
             }else {
-                telefones.add(telefone);
+                telefones.add(numeroTelefone);
             }
             continuarLoop = view.perguntarAoUsuario("Deseja adicionar outro telefone?");
 
@@ -205,9 +204,6 @@ public class AgendaService {
         String contato = view.buscarContato("------- ADD TELEFONE -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
 
-//        if(contatosEncontrados.size() == Constantes.CONTATO_UNICO){
-//            System.out.println(contatosEncontrados.get(Constantes.INDEX_ZERO));
-//        }
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         List<Telefone> telefones = pegarNovoTelefone(contatoSelecionado.getTelefones());
         contatoSelecionado.addAllTelefones(telefones);
