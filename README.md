@@ -13,12 +13,12 @@
 
 ## Equipe
 
-- Hugo Rafael (@hgrafa)[]
-- Nati Stoll 
-- Ramon Carvalho
-- Ailton Ferreira
-- Maria Helena
-- Neto
+- Hugo Rafael ([@hgrafa](https://github.com/hgrafa))
+- Nati Stoll ([NatiStoll](https://github.com/NatiStoll))
+- Ramon Carvalho ([rcarvalho-pb](https://github.com/rcarvalho-pb))
+- Ailton Ferreira ([djailtim](https://github.com/djailtim))
+- Maria Helena ([@ma-helena](https://github.com/ma-helena))
+- Neto ([@assnetoo](https://github.com/aasnetoo))
 
  ----
 
