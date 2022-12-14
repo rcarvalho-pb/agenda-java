@@ -1,5 +1,7 @@
 package model;
 
+import model.enums.TipoTelefone;
+
 import java.util.Objects;
 
 public class Telefone {

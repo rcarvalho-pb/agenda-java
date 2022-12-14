@@ -5,7 +5,9 @@ import model.Contato;
 import model.Endereco;
 import model.Telefone;
 import model.TipoEndereco;
+import model.enums.TipoTelefone;
 import util.Constantes;
+import util.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -364,5 +366,33 @@ public class AgendaView {
                 System.err.println("Comando Inválido.");
                 return false;
         }
+    }
+
+    public void excibirMenuPaginacao(int numeroDaPagina, int ultimaPagina) {
+        System.out.println("EXIBINDO PAGINA " + numeroDaPagina + " / " + ultimaPagina);
+
+        if (numeroDaPagina != ultimaPagina)
+            System.out.println("1 - Para exibir a proxima pagina");
+
+        if(numeroDaPagina != 1)
+            System.out.println("2 - Para voltar para a pagina anterior");
+
+        System.out.println("3 - Para escolher pagina");
+
+        System.out.println("0 - Para retornar ao menu");
+    }
+
+    public <T> void exbirListaPaginada(List<T> lista, int tamanho) {
+        Pageable<T> conteudo = new Pageable<>(lista, tamanho);
+        int numeroDaPagina = 0;
+        conteudo.get().forEach(System.out::println);
+        System.out.println();
+
+        System.out.println("-------------------------------------");
+        excibirMenuPaginacao(1, lista.size()/tamanho + 1);
+        System.out.println("-------------------------------------");
+
+        System.out.print("> ");
+        numeroDaPagina = scan.nextInt();
     }
 }

@@ -157,8 +157,7 @@ public class AgendaService {
             throw new ContatoNaoEncontradoException();
         }
 
-        Pageable<Contato> paginacaoDeContatos = new Pageable<>(contatosEncontrados, 10);
-        return paginacaoDeContatos.get();
+        return contatosEncontrados;
     }
 
     public void imprimirBuscarContato() {
