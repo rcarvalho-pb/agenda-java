@@ -1,6 +1,7 @@
 package model;
 
 import exception.EntradaInvalidaOuInsuficienteException;
+import util.Constantes;
 
 public enum TipoEndereco {
 
@@ -34,11 +35,11 @@ public enum TipoEndereco {
 
     public static TipoEndereco pegarEndereco(String id) {
         switch (id) {
-            case "1" -> {
+            case Constantes.TIPO_RESIDENCIAL -> {
                 return RESIDENCIAL;
-            } case "2" ->   {
+            } case Constantes.TIPO_COMERCIAL ->   {
                 return COMERCIAL;
-            } case "3" -> {
+            } case Constantes.TIPO_CAIXAPOSTAL -> {
                 return CAIXA_POSTAL;
             }
             default -> throw new EntradaInvalidaOuInsuficienteException("Entrada inválida!");

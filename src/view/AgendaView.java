@@ -5,10 +5,9 @@ import util.Constantes;
 import exception.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class AgendaView {
 
@@ -60,25 +59,16 @@ public class AgendaView {
         System.out.println(frase);
         System.out.println("Qual o contato? ");
         System.out.print("> ");
-        String nome = scan.nextLine();
-        return nome;
+        return scan.nextLine();
     }
 
     public String buscarEndereco(String frase) { //3
         System.out.println(frase);
         System.out.println("Qual o endereço? ");
         System.out.print("> ");
-        String nome = scan.nextLine();
-        return nome;
-    }
-
-
-    public String opcaoContatoNaoEncontrado() {
-        System.err.println("Contato não encontrado. \n");
-        System.out.println(" ");
-        System.out.println("[1] Nova busca  ou  [2] Voltar ao Menú");
         return scan.nextLine();
     }
+
 
     public Contato AdicionarContato() { //1
         System.out.println("Nome do Contato: ");
@@ -98,7 +88,7 @@ public class AgendaView {
 
     public Contato escolherContato(List<Contato> contatos) { //Para buscar um contato para editar
 
-        if (contatos.size() > Constantes.CONTATO_UNICO) {
+        if (contatos.size() > Constantes.REGISTRO_UNICO) {
             int contador = Constantes.INDEX_FATOR;
             for (Contato contato: contatos) {
                 System.out.println(contador + ": "+contato);
@@ -108,13 +98,13 @@ public class AgendaView {
             System.out.println(" ");
             System.out.println("Digite o indice do contato: ");
             System.out.print("> ");
-            Integer opcao = Integer.parseInt(scan.nextLine()) - Constantes.INDEX_FATOR;
+            int opcao = Integer.parseInt(scan.nextLine()) - Constantes.INDEX_FATOR;
             return contatos.get(opcao);
         }else{
-            System.out.println(contatos.get(0));
+            System.out.println(contatos.get(Constantes.INDEX_ZERO));
         }
         
-        return contatos.get(0);
+        return contatos.get(Constantes.INDEX_ZERO);
     }
 
     public Endereco escolherEnderecoRemover(Contato contato) { //8
@@ -161,28 +151,36 @@ public class AgendaView {
         return enderecos;
     }
 
-    public String pegarTelefone() {
-        System.out.println("Informe o número de telefone: (DDD e Número - 00 000000000) ");
+    public Telefone pegarTelefone() {
+        System.out.println("Informe o Tipo de Telefone: ");
+        System.out.println("[1] RESIDENCIAL - [2] CELULAR - [3] COMERCIAL - [4] FIXO  ");
+        System.out.print("> ");
+        TipoTelefone tipoTelefone = TipoTelefone.pegarTipoTelefone(scan.nextLine());
+        System.out.println("Informe o DDD: ");
+        System.out.print("> ");
+        String numeroDDD = scan.nextLine();
+        System.out.println("Informe o número de telefone: ");
         System.out.print("> ");
         String numeroTelefone = scan.nextLine();
-        return numeroTelefone;
+
+        return new Telefone(numeroDDD, numeroTelefone, tipoTelefone);
     }
 
     public Telefone escolherTelefoneRemover(Contato contato) {
         
-        if(contato.getTelefones().size() > Constantes.TELEFONE_UNICO){
+        if(contato.getTelefones().size() > Constantes.REGISTRO_UNICO){
             for (int i = 0; i < contato.getTelefones().size(); i++) {
                 System.out.println("ID: " + (i + Constantes.INDEX_FATOR) + " Telefone: " + contato.getTelefones().get(i));
             }
 
             System.out.println("Qual telefone a remover? ");
             System.out.print("> ");
-            Integer opcao = scan.nextInt() - Constantes.INDEX_FATOR;;
+            int opcao = scan.nextInt() - Constantes.INDEX_FATOR;
             scan.nextLine();
             return contato.getTelefones().get(opcao);
         }
         
-        return contato.getTelefones().get(0);
+        return contato.getTelefones().get(Constantes.INDEX_ZERO);
     }
 
     public void mostrarTodasInformacoesParaContato(Contato contato) {
@@ -198,7 +196,7 @@ public class AgendaView {
 
         if(contato == null) {
             throw new ContatoNaoEncontradoException();
-        }        
+        }
 
         System.out.println(id + " : " + imprimirInformacoesContato(contato));
     }
@@ -215,10 +213,10 @@ public class AgendaView {
                     contato.getNome(), contato.getSobrenome(), contato.getEmail()));
 
             sb.append("Endereços: \n");            
-            contato.getEnderecos().forEach(endereco -> sb.append(endereco));
+            contato.getEnderecos().forEach(sb::append);
 
             sb.append("Telefones: \n");
-            contato.getTelefones().forEach(telefone -> sb.append(telefone));
+            contato.getTelefones().forEach(sb::append);
 
             return sb.toString();
         }
@@ -233,7 +231,7 @@ public class AgendaView {
                     contato.getNome(), contato.getSobrenome(), contato.getEmail()));
                     
             sb.append("Endereços: \n");            
-            contato.getEnderecos().forEach(endereco -> sb.append(endereco));
+            contato.getEnderecos().forEach(sb::append);
             return sb.toString();
         }
 
@@ -247,7 +245,7 @@ public class AgendaView {
                     contato.getNome(), contato.getSobrenome(), contato.getEmail()));
 
             sb.append("Telefones: \n");
-            contato.getTelefones().forEach(telefone -> sb.append(telefone));
+            contato.getTelefones().forEach(sb::append);
             return sb.toString();
         }
 
@@ -268,7 +266,6 @@ public class AgendaView {
     }
 
     public boolean sairPrograma() {
-        scan.match();
         scan.close();
         System.out.println("Encerrando o programa. ");
         return false;
@@ -276,15 +273,15 @@ public class AgendaView {
 
     public Endereco escolherEndereco(Contato contato) {
 
-        if (!(contato.getEnderecos().size() == Constantes.ENDERECO_UNICO)) {
+        if (!(contato.getEnderecos().size() == Constantes.REGISTRO_UNICO)) {
             System.out.println("Qual endereco a remover? ");
             System.out.print("> ");
-            Integer opcao = scan.nextInt() - Constantes.INDEX_FATOR;
+            int opcao = scan.nextInt() - Constantes.INDEX_FATOR;
             scan.nextLine();
             return contato.getEnderecos().get(opcao);
         }
 
-        return contato.getEnderecos().get(0);
+        return contato.getEnderecos().get(Constantes.INDEX_ZERO);
     }
 
     public void mostrarEnderecos(Contato contato) {
@@ -297,8 +294,7 @@ public class AgendaView {
     public String buscarContatoPorTelefone() {
         System.out.println("Telefone sem DDD: ");
         System.out.print("> ");
-        String numeroTelefone = scan.nextLine();
-        return numeroTelefone;
+        return scan.nextLine();
     }
 
     public String buscarContatoPorEndereco() {

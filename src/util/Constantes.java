@@ -37,12 +37,6 @@ public class Constantes{
     public static final String RESP_NAO = "2";
     public static final int LISTA_VAZIA = 0;
 
-    public static final int CONTATO_UNICO = 1;
-
-    public static final int TELEFONE_UNICO = 1;
-
-    public static final int ENDERECO_UNICO = 1;
-
     public static final String LOGRADOURO = "1";
     public static final String CEP = "2";
     public static final int OPCAO_ENDERECO = 0;
@@ -50,5 +44,14 @@ public class Constantes{
     public static final int REGISTRO_UNICO = 1;
 
     public static final int INDEX_ZERO = 0;
+
+    // model TipoTelefone e TipoEndereco
+
+    public static final String TIPO_RESIDENCIAL = "1";
+    public static final String TIPO_COMERCIAL = "2";
+    public static final String TIPO_CAIXAPOSTAL = "3";
+    public static final String TIPO_CELULAR = "3";
+    public static final String TIPO_FIXO = "4";
+
 
 }
