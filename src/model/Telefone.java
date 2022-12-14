@@ -57,7 +57,7 @@ public class Telefone {
 
     @Override
     public String toString() {
-        return " (" + ddd + ") " + numeroTelefone + "\n";
+        return "Telefone: " + tipoTelefone + " (" + ddd + ") " + numeroTelefone + "\n";
     }
 
 

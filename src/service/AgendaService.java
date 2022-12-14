@@ -260,7 +260,7 @@ public class AgendaService {
             } else {
                 enderecos.add(endereco);
             }
-            continuarLoop = view.perguntarAoUsuario("Deseja adicionar outro telefone?");
+            continuarLoop = view.perguntarAoUsuario("Deseja adicionar outro endereço?");
 
         } while (continuarLoop);
 
