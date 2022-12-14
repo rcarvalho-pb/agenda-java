@@ -23,9 +23,9 @@ public class AgendaView {
         System.out.println("3 - Buscar Contato");
         System.out.println("4 - Remover um contato");
         System.out.println("5 - Remover todos os contatos");
-        System.out.println("6 - Informações Contatos");
+        System.out.println("6 - Informações Contatos * ");
         System.out.println("7 - Exibir a lista de contatos com paginação");
-        System.out.println("8 - Exibir a lista de telefones com paginaçã");
+        System.out.println("8 - Exibir a lista de telefones com paginação");
         System.out.println("9 -  Exibir a lista de endereços com paginação");
         System.out.println("10 - Exportar todos os contatos para um arquivo texto ");
         System.out.println("11 - Importar todos os contatos de um arquivo texto ");
@@ -108,13 +108,40 @@ public class AgendaView {
     }
 
     public Endereco escolherEnderecoRemover(Contato contato) { //8
-
+        for(int i = 0; i < contato.getEnderecos().size(); i++){
+            System.out.println("Id: " + (i+1) + "\n " + contato.getEnderecos().get(i));
+        }
         System.out.println("Qual endereco a remover? ");
         System.out.print("> ");
         int opcao = scan.nextInt() - Constantes.INDEX_FATOR;
         scan.nextLine();
         return contato.getEnderecos().get(opcao);
 
+    }
+
+    public Endereco pegarEndereco(){
+
+        System.out.println("Qual o tipo de endereco? ");
+        System.out.println("[1] RESIDENCIAL - [2] COMERCIAL - [3] CAIXA_POSTAL ");
+        System.out.print("> ");
+        TipoEndereco tipoEndereco = TipoEndereco.pegarEndereco(scan.nextLine());
+        System.out.println("Qual o logradouro? ");
+        System.out.print("> ");
+        String logradouro = scan.nextLine();
+        System.out.println("Qual o CEP? ");
+        System.out.print("> ");
+        String cep = scan.nextLine();
+        System.out.println("Qual o número? ");
+        System.out.print("> ");
+        String numero = scan.nextLine();
+        System.out.println("Qual o Cidade? ");
+        System.out.print("> ");
+        String cidade = scan.nextLine();
+        System.out.println("Qual o Estado? ");
+        System.out.print("> ");
+        String estado = scan.nextLine();
+
+        return new Endereco(logradouro, cep, numero, cidade, estado, tipoEndereco);
     }
 
 
@@ -168,7 +195,7 @@ public class AgendaView {
 
     public Telefone escolherTelefoneRemover(Contato contato) {
         
-        if(contato.getTelefones().size() > Constantes.REGISTRO_UNICO){
+
             for (int i = 0; i < contato.getTelefones().size(); i++) {
                 System.out.println("ID: " + (i + Constantes.INDEX_FATOR) + " Telefone: " + contato.getTelefones().get(i));
             }
@@ -177,10 +204,13 @@ public class AgendaView {
             System.out.print("> ");
             int opcao = scan.nextInt() - Constantes.INDEX_FATOR;
             scan.nextLine();
-            return contato.getTelefones().get(opcao);
-        }
+
+
+
+            return contato.getTelefones().get(Constantes.INDEX_ZERO);
+
         
-        return contato.getTelefones().get(Constantes.INDEX_ZERO);
+
     }
 
     public void mostrarTodasInformacoesParaContato(Contato contato) {
@@ -205,12 +235,12 @@ public class AgendaView {
     public String  imprimirInformacoesContato(Contato contato) {
         if (!contato.getTelefones().isEmpty() && !contato.getEnderecos().isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            sb.append(String.format("""
-                    Nome: %s
-                    Sobrenome: %s
-                    Email: %s
-                    """,
-                    contato.getNome(), contato.getSobrenome(), contato.getEmail()));
+//            sb.append(String.format("""
+//                    Nome: %s
+//                    Sobrenome: %s
+//                    Email: %s
+//                    """,
+//                    contato.getNome(), contato.getSobrenome(), contato.getEmail()));
 
             sb.append("Endereços: \n");            
             contato.getEnderecos().forEach(sb::append);

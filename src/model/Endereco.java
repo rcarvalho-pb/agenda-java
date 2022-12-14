@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Endereco {
     private String logradouro;
     private String cep;
@@ -67,5 +69,18 @@ public class Endereco {
         sb.append("\n Logradouro: " + logradouro + ", N: " + numero + ", CEP: " + cep);
         sb.append("\n Cidade: " + cidade + ", Estado: " + estado + "\n");
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Endereco endereco = (Endereco) o;
+        return Objects.equals(logradouro, endereco.logradouro) && Objects.equals(cep, endereco.cep) && Objects.equals(numero, endereco.numero) && Objects.equals(cidade, endereco.cidade) && Objects.equals(estado, endereco.estado) && tipoEndereco == endereco.tipoEndereco;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(logradouro, cep, numero, cidade, estado, tipoEndereco);
     }
 }

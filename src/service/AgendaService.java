@@ -85,6 +85,9 @@ public class AgendaService {
             } catch (Exception ignored) {
                 System.out.println(ignored.getMessage());
             }
+            if(continueMenu){
+                aguardarRepeticaoMenu();
+            }
         }
         
 
@@ -126,15 +129,7 @@ public class AgendaService {
         if (contato.equals("")){
             throw new ContatoNaoEncontradoException();
         }
-
         return contatosEncontrados ;
-
-
-
-
-
-
-
     }
 
     public void imprimirBuscarContato() {
@@ -216,13 +211,35 @@ public class AgendaService {
         String contato = view.buscarContato("------- ADD ENDEREÇO -------");
         List<Contato> contatosEncontrados = buscarContato(contato);
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
-        List<Endereco> enderecos = view.pegarEnderecos();
+        List<Endereco> enderecos = pegarNovoEndereco(contatoSelecionado.getEnderecos());
         agenda.getContatos().forEach(cont -> {
             if (cont.equals(contatoSelecionado)) {
                 cont.addAllEnderecos(enderecos);
             }
         });
         mensagens.mensagemEnderecoAdicionadoSucesso();
+    }
+
+    public List<Endereco> pegarNovoEndereco(List<Endereco> enderecosAtuais){
+        List<Endereco> enderecos = new ArrayList<>();
+        boolean continuarLoop;
+
+        do {
+            Endereco endereco = view.pegarEndereco();
+            var enderecoExisteAtuais = enderecosAtuais.stream().anyMatch(t-> t.equals(endereco));
+            var enderecoExiste = enderecos.stream().anyMatch(t -> t.equals(endereco));
+            if (enderecoExiste || enderecoExisteAtuais) {
+                mensagens.mensagemEnderecoExiste();
+            }else {
+                enderecos.add(endereco);
+            }
+            continuarLoop = view.perguntarAoUsuario("Deseja adicionar outro telefone?");
+
+        } while (continuarLoop);
+
+
+
+        return enderecos;
     }
 
     public void removerTelefoneParaContato() { // 8

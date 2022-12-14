@@ -11,6 +11,10 @@ public class Mensagens{
         System.out.println("Telefone Existe");
     }
 
+    public void mensagemEnderecoExiste(){
+        System.out.println("Endereco Existe");
+    }
+
     public void mensagemNomeDoContatoParaTelefone(String contato){
         System.out.println("Telefone(s) do(a) "+contato+":");
     }
@@ -34,6 +38,7 @@ public class Mensagens{
 
     public void confirmacaoExcluirTelefone(){
         System.out.println("Deseja realmente excluir o telefone: [1] sim [2] não");
+        System.out.print("> ");
     }
 
     public void confirmacaoExcluirEndereco(){
