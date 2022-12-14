@@ -3,6 +3,9 @@ package service;
 import exception.ContatoNaoEncontradoException;
 import exception.EntradaInvalidaOuInsuficienteException;
 import model.*;
+import model.enums.Estado;
+import repository.ContatoRepository;
+import util.Pageable;
 import view.AgendaView;
 import view.Mensagens;
 
@@ -10,18 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 import util.Constantes;
 import exception.ContatoJaRegistradoException;
 
 public class AgendaService {
 
+    private ContatoRepository contatoRepository;
     Mensagens mensagens = new Mensagens();
-
     int contador = 0;
-    AgendaView view = new AgendaView();
-    Agenda agenda = new Agenda();
+    AgendaView view;
+    Agenda agenda;
+
+    public AgendaService() {
+        this.view = new AgendaView();
+        this.agenda = new Agenda();
+        this.contatoRepository = new ContatoRepository();
+    }
 
     public void menu() {
         boolean continueMenu = true;
@@ -116,10 +124,8 @@ public class AgendaService {
             System.err.println("Contato não encontrado. ");
         }
 
-        // List<Contato> contatos = listaContatos.stream().filter(cont -> cont.getPessoa().getNomeCompleto().toLowerCase().contains(contato.toLowerCase())).collect(Collectors.toList());
-        // if(contatos.size() == 0) System.err.println("Contato não encontrado. ");
-
-        return contatosEncontrados;
+        Pageable<Contato> paginacaoDeContatos = new Pageable<>(contatosEncontrados, 10);
+        return paginacaoDeContatos.get();
     }
 
     public void imprimirBuscarContato() {
@@ -184,14 +190,16 @@ public class AgendaService {
         Contato contatoSelecionado = view.escolherContato(contatosEncontrados);
         Telefone telefone = view.escolherTelefoneRemover(contatoSelecionado);
 
-        long quantidadeApagados = agenda
-                .getContatos()
-                .stream()
-                .filter(cont -> cont.equals(contatoSelecionado))
-                .map(cont -> cont.getTelefones().remove(telefone))
-                .count();
-        System.out.println("Foi/Foram apagado(s) " + quantidadeApagados + " telefone(s).");
+         agenda
+            .getContatos()
+            .stream()
+            .filter(cont -> cont.equals(contatoSelecionado))
+            .findFirst()
+            .orElseThrow(ContatoNaoEncontradoException::new)
+            .getTelefones()
+            .remove(telefone);
 
+        System.out.println("Telefone removido com sucesso!");
     }
 
     public void removerEnderecoParaContato() { // 9
@@ -306,9 +314,6 @@ public class AgendaService {
         Contato contato = buscarContatoPorEndereco(endereco);
         view.mostrarTodasInformacoesParaContato(contato);
     }
-
-
-    // XXXXXXXXXXXXXXXXXXX EXTRAS XXXXXXXXXXXXXXXXXXX
 
 
     public void exibirListaContatosComPaginacao() { // 15
